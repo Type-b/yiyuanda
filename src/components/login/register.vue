@@ -203,7 +203,7 @@ export default {
         }
       }
     },
-    // 登录验证
+    // 注册验证
     handleSubmit (form) {
       this.$refs['form'].validate((valid) => {
         if (valid) {
