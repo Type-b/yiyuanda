@@ -1,6 +1,6 @@
 <template>
   <div class="page-main-login">
-    <span class="logo">易愿达</span>
+    <span class="login-logo">易愿达</span>
     <div style="width:380px;">
       <span class="title-register">注册</span>
     </div>
@@ -229,7 +229,7 @@ export default {
     font-size: 16px;
     padding-bottom: 8px;
   }
-  .logo {
+  .login-logo {
     font-family: "Digital";
     color: #000;
     font-size: 40px;
