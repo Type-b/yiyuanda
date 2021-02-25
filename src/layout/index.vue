@@ -124,6 +124,10 @@ export default {
 .ant-menu-submenu-title {
   padding: 0 0 0 60px;
 }
+.ant-menu-dark .ant-menu-item:hover {
+  background-color: #fff;
+  color: #000;
+}
 .ant-menu-dark .ant-menu-item,
 .ant-menu-dark .ant-menu-item-group-title,
 .ant-menu-dark .ant-menu-item > a {
@@ -179,7 +183,7 @@ export default {
     width: 100%;
     height: 100%;
     .manage-content {
-      height: calc("100% - 64px");
+      height: calc(100% - 64px);
       .common-part {
         padding: 16px 24px;
         background: #fff;

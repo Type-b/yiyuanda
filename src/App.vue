@@ -31,18 +31,18 @@ export default {
 }
 @font-face {
   font-family: "Digital";
-  src: url("./assets/YouSheBiaoTiHei-2.ttf");
+  src: url("./assets/YouSheBiaoTiHei.ttf");
 }
 @font-face {
   font-family: "PingFangCu";
-  src: url("./assets/苹方黑体-中粗-简.ttf");
+  src: url("./assets/pingFangCu.ttf");
 }
 @font-face {
   font-family: "PingFangHei";
-  src: url("./assets/苹方黑体-中黑-简.ttf");
+  src: url("./assets/pingFangHei.ttf");
 }
 @font-face {
   font-family: "PingFangZhun";
-  src: url("./assets/苹方黑体-准-简.ttf");
+  src: url("./assets/pingFangZhun.ttf");
 }
 </style>
