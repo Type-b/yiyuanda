@@ -8,6 +8,7 @@ import store from './src/store/index'
 import Antd from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.css';
 import Vuex from 'vuex'
+import 'lib-flexible/flexible'
 
 Vue.use(Vuex)
 Vue.config.productionTip = false

@@ -71,7 +71,7 @@
         </div>
         <div class="footer-bottom">
           <span>Copyright © 2021 Easego Inc. 保留所有权利。</span>
-          <span>京ICP备10214630 营业执照</span>
+          <span>辽ICP备2021001758号-1 营业执照</span>
         </div>
       </a-layout-footer>
     </a-layout>
@@ -87,6 +87,12 @@ export default {
     }
   },
   methods: {
+    onCollapse (collapsed, type) {
+      console.log(collapsed, type)
+    },
+    onBreakpoint (broken) {
+      console.log(broken)
+    },
     // 登录
     login () {
       this.$router.push('login')

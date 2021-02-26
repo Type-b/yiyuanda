@@ -1,5 +1,5 @@
 <template>
-  <div class="page-main">
+  <div class="page-main-product">
     <div class="page-swiper">
       <div class="swiper-top">
         <span>志愿填的好，</span>
@@ -153,7 +153,7 @@ export default {
 </script>
 
 <style lang="scss">
-.page-main {
+.page-main-product {
   color: #000;
   height: calc(100% - 185px);
   widows: 100%;
