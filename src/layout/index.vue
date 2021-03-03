@@ -2,25 +2,24 @@
   <div>
     <a-layout id="components-layout-demo-fixed">
       <a-layout-header :style="{ position: 'fixed', zIndex: 9999, width: '100%', display:'flex', alignItems:'center',borderBottom:'1px solid #000',fontFamily: 'pingFangZhun' }">
-        <!-- <img src="../assets/logo.png" style="width:100px;height:25px;display:flex"> -->
         <span @click="changeMenu('home')" style="font-family:'Digital';color:#000;font-size:40px;cursor:point">易愿达</span>
-        <a-menu theme="dark" mode="horizontal" :default-selected-keys="['1']" :style="{ lineHeight: '64px' }">
-          <a-menu-item key="1" @click="changeMenu('home')">
+        <a-menu theme="dark" mode="horizontal" :default-selected-keys="keys" :style="{ lineHeight: '64px' }">
+          <a-menu-item key="home" @click="changeMenu('home')">
             首页
           </a-menu-item>
-          <a-menu-item key="2" @click="changeMenu('product')">
+          <a-menu-item key="product" @click="changeMenu('product')">
             产品列表
           </a-menu-item>
-          <a-menu-item key="3" @click="changeMenu('Consultant')">
+          <a-menu-item key="Consultant" @click="changeMenu('Consultant')">
             咨询师库
           </a-menu-item>
-          <a-menu-item key="4" @click="changeMenu('About')">
+          <a-menu-item key="About" @click="changeMenu('About')">
             关于我们
           </a-menu-item>
-          <a-menu-item key="5" @click="changeMenu('About')">
+          <a-menu-item key="About2" @click="changeMenu('About')">
             在线咨询
           </a-menu-item>
-          <a-menu-item key="6" @click="changeMenu('login')">
+          <a-menu-item key="login" @click="changeMenu('login')">
             <a-button @click="login" style="width:102px;background-color:#36BEB4;color:#ffffff">登录账号</a-button>
           </a-menu-item>
         </a-menu>
@@ -83,8 +82,11 @@
 export default {
   data () {
     return {
-
+      keys: ''
     }
+  },
+  created () {
+    this.keys = [this.$route.name]
   },
   methods: {
     onCollapse (collapsed, type) {
@@ -98,7 +100,6 @@ export default {
       this.$router.push('login')
     },
     changeMenu (route) {
-      console.log(route)
       // 获取路由对象并切换
       this.$router.push(route)
     }
@@ -107,6 +108,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.ant-menu-item{
+  line-height: 0px !important;
+}
+.ant-menu-dark.ant-menu-horizontal{
+  line-height: 0px;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
 #components-layout-demo-fixed .logo {
   width: 120px;
   height: 31px;

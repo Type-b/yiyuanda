@@ -9,11 +9,20 @@ import Antd from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.css';
 import Vuex from 'vuex'
 import 'lib-flexible/flexible'
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 
 Vue.use(Vuex)
 Vue.config.productionTip = false
 Vue.use(Antd)
 
+NProgress.configure({     
+  easing: 'ease',  // 动画方式    
+  speed: 100,  // 递增进度条的速度    
+  showSpinner: true, // 是否显示加载ico    
+  trickleSpeed: 5000, // 自动递增间隔    
+  minimum: 0.3 // 初始化时的最小百分比
+})
 router.beforeEach((to, from, next) => {
   // 让页面回到顶部
   // chrome
