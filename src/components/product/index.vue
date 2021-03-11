@@ -17,27 +17,18 @@
     <div class="page-bottom-product">
       <div class="page-bottom-left">
         <span class="title">产品筛选</span>
-        <a-menu mode="inline" :open-keys="openKeys" style="width: 256px;height:957px" @openChange="onOpenChange">
+        <a-menu mode="inline" :open-keys="openKeys" :defaultSelectedKeys="openKeys" style="width: 256px;height:957px" @openChange="onOpenChange">
           <a-sub-menu key="sub1">
             <span slot="title">
-              <a-icon type="ant-design" /><span>Navigation One</span>
+              <a-icon type="ant-design" /><span>产品</span>
             </span>
-            <a-menu-item key="1">
-              Option 1
-            </a-menu-item>
-            <a-menu-item key="2">
-              Option 2
-            </a-menu-item>
-            <a-menu-item key="3">
-              Option 3
-            </a-menu-item>
-            <a-menu-item key="4">
-              Option 4
+            <a-menu-item key="sub1">
+              产品列表
             </a-menu-item>
           </a-sub-menu>
-          <a-sub-menu key="sub2">
+          <a-sub-menu disabled key="sub2">
             <span slot="title">
-              <a-icon type="ant-design" /><span>Navigation Two</span>
+              <a-icon type="ant-design" /><span>待开放内容</span>
             </span>
             <a-menu-item key="5">
               Option 5
@@ -62,17 +53,14 @@
         <div style="padding:24px 0 16px 0px;border-bottom:1px dashed #E9E9E9;margin-left:40px;margin-right:24px">
           <span>所属类目：</span>
           <a-radio-group default-value="a" button-style="solid">
-            <a-radio-button value="a">
+            <a-radio-button @click="getProductList('all')" value="a">
               全部
             </a-radio-button>
-            <a-radio-button value="b">
-              类目一
+            <a-radio-button @click="getProductList('one')" value="b">
+              1v1
             </a-radio-button>
-            <a-radio-button value="c">
-              类目二
-            </a-radio-button>
-            <a-radio-button value="d">
-              类目三
+            <a-radio-button @click="getProductList('second')" value="c">
+              2v1
             </a-radio-button>
           </a-radio-group>
         </div>
@@ -94,11 +82,10 @@
           </div>
         </div>
         <div class="bottom-card">
-          <a-card hoverable style="width: 300px">
-            <img slot="cover" alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />
-            <a-card-meta style="font-size:15px" title="Card title" description="This is the description">
+          <a-card v-for="(item,index) in productList" :key="index" hoverable style="width: 300px;margin:30px 0px 0 30px">
+            <img slot="cover" alt="example" :src="item.product_img_url" />
+            <a-card-meta style="font-size:15px" :title="item.product_name" :description="item.prodcut_content">
               <a-avatar slot="avatar" style="float:right" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-              <span>abc</span>
             </a-card-meta>
             <a-card-meta style="font-size:13px;padding-top:13px" description="5hours ago">
             </a-card-meta>
@@ -110,9 +97,11 @@
 </template>
 
 <script>
+import atdapi from '@/api/product'
 export default {
   data () {
     return {
+      productList: [],
       // 作者列表
       authorList: [
         {
@@ -132,6 +121,9 @@ export default {
       openKeys: ['sub1']
     }
   },
+  mounted () {
+    this.getProductList('all')
+  },
   methods: {
     // 点击菜单
     onOpenChange (openKeys) {
@@ -141,6 +133,30 @@ export default {
       } else {
         this.openKeys = latestOpenKey ? [latestOpenKey] : []
       }
+    },
+    getProductList (value) {
+      atdapi.getProductList({ params: this.form }).then(res => {
+        let list = []
+        if (value === 'all') {
+          this.productList = res.data.data
+        } else if (value === 'one') {
+          res.data.data.forEach(element => {
+            if (element.product_class_id === 'one') {
+              list.push(element)
+            }
+          })
+          this.productList = list
+        } else if (value === 'second') {
+          res.data.data.forEach(element => {
+            if (element.product_class_id === 'second') {
+              list.push(element)
+            }
+          })
+          this.productList = list
+        }
+      }).finally(() => {
+        this.loadTable = false
+      })
     },
     // 搜索
     onSearch () {
@@ -214,7 +230,8 @@ export default {
         padding-left: 32px;
       }
       .bottom-card {
-        margin-top: 35px;
+        display: flex;
+        flex-wrap: wrap;
         .ant-card-meta-avatar {
           float: right;
         }

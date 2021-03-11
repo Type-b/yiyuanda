@@ -2,7 +2,7 @@
   <div class="my-outbox">
     <div class="my-inbox" ref='box'>
       <div class="my-list" v-for="(item,index) in sendVal" :key='index'>
-        {{item.place}}<span class="my-uname">{{item.name}}</span>刚刚购买了产品
+        {{item.college_name}}
       </div>
     </div>
   </div>

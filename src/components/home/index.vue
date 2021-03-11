@@ -26,9 +26,9 @@
           <span class="right-bottom">筛选通过率</span>
         </div>
       </div>
-      <scrollBar style="margin-top:69px" :sendVal="scrollList"></scrollBar>
-      <scrollBar style="margin-top:42px" :sendVal="scrollList"></scrollBar>
-      <scrollBar style="margin-top:42px" :sendVal="scrollList"></scrollBar>
+      <scrollBar style="margin-top:69px" :sendVal="scrollListA"></scrollBar>
+      <scrollBar style="margin-top:42px" :sendVal="scrollListB"></scrollBar>
+      <scrollBar style="margin-top:42px" :sendVal="scrollListC"></scrollBar>
       <div class="middle-bottom">
         <div class="bottom-introduce" v-for="(item,index) in specialList" :key="index">
           <img class="introduce-img" :src="item.url">
@@ -57,6 +57,7 @@
 </template>
 <script>
 import scrollBar from './components/scrollbar.vue'
+import atdapi from '@/api/home'
 export default {
   components: {
     scrollBar
@@ -104,75 +105,40 @@ export default {
           content: '无需多看，将多达上百页的报考白皮书，变成可视化的数据呈现给您。只需一眼，便知所有。'
         }
       ],
-      scrollList: [{
-        'place': '来自烟台市的',
-        'name': '许先生'
-      }, {
-        'place': '来自东莞市的',
-        'name': '曹先生'
-      }, {
-        'place': '来自郑州市的',
-        'name': '邹女士'
-      }, {
-        'place': '来自海口市的',
-        'name': '戚先生'
-      }, {
-        'place': '来自南京市的',
-        'name': '陈先生'
-      }, {
-        'place': '来自金华市的',
-        'name': '吴先生'
-      }, {
-        'place': '来自泉州市的',
-        'name': '卫先生'
-      }, {
-        'place': '来自哈尔滨市的',
-        'name': '钱先生'
-      }, {
-        'place': '来自成都市的',
-        'name': '尤先生'
-      }, {
-        'place': '来自惠州市的',
-        'name': '张先生'
-      }, {
-        'place': '来自宁波市的',
-        'name': '喻女士'
-      }, {
-        'place': '来自石家庄市的',
-        'name': '吕先生'
-      }, {
-        'place': '来自大连市的',
-        'name': '蒋女士'
-      }, {
-        'place': '来自南昌市的',
-        'name': '赵先生'
-      }, {
-        'place': '来自珠海市的',
-        'name': '黄女士'
-      }, {
-        'place': '来自天津市的',
-        'name': '金先生'
-      }, {
-        'place': '来自绍兴市的',
-        'name': '韩先生'
-      }, {
-        'place': '来自西安市的',
-        'name': '褚先生'
-      }, {
-        'place': '来自苏州市的',
-        'name': '姜先生'
-      }, {
-        'place': '来自南宁市的',
-        'name': '陈女士'
-      }, {
-        'place': '来自沈阳市的',
-        'name': '华先生'
-      }]
+      scrollListA: [],
+      scrollListB: [],
+      scrollListC: []
     }
+  },
+  mounted () {
+    this.getlist()
   },
   methods: {
     // 手机号存储
-    onSearch () { }
+    onSearch () { },
+    getlist () {
+      atdapi.getaccesslist({ params: this.form }).then(res => {
+        let data = res.data.data
+        const length = parseInt(data.length / 3)
+        let list1 = []
+        let list2 = []
+        let list3 = []
+        data.forEach((element, index) => {
+          if (index < length) { list1.push(element) }
+        })
+        data.forEach((element, index) => {
+          if (index > length & index < length * 2) { list2.push(element) }
+        })
+        data.forEach((element, index) => {
+          if (index > length * 2) { list3.push(element) }
+        })
+        this.scrollListA = list1
+        this.scrollListB = list2
+        this.scrollListC = list3
+      }).finally(() => {
+        this.loadTable = false
+      })
+    }
   }
 }
 </script>

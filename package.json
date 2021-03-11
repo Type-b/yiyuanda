@@ -6,6 +6,7 @@
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
+    "prod": "webpack-dev-server --inline --progress --config build/webpack.prod.conf.js",
     "start": "npm run dev",
     "test": "npm run unit",
     "lint": "eslint --ext .js,.vue src test/unit",
@@ -20,6 +21,7 @@
     "node-sass": "^4.14.1",
     "nprogress": "^0.2.0",
     "px2rem-loader": "^0.1.9",
+    "qs": "^6.9.6",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
     "vuex": "^3.6.2"

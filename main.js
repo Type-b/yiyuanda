@@ -3,7 +3,7 @@
 import Vue from 'vue'
 import App from './src/App'
 import router from './src/router'
-import Vue from 'vue';
+import axios from 'axios'
 import store from './src/store/index'
 import Antd from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.css';
@@ -16,6 +16,9 @@ Vue.use(Vuex)
 Vue.config.productionTip = false
 Vue.use(Antd)
 
+axios.defaults.withCredentials = true
+Vue.prototype.$axios=axios;
+Vue.prototype.$http = axios;
 NProgress.configure({     
   easing: 'ease',  // 动画方式    
   speed: 100,  // 递增进度条的速度    

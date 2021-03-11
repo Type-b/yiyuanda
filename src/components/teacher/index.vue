@@ -17,27 +17,18 @@
     <div class="page-bottom-teacher">
       <div class="page-bottom-left">
         <span class="title">咨询师筛选</span>
-        <a-menu mode="inline" :open-keys="openKeys" style="width: 256px;height:957px" @openChange="onOpenChange">
+        <a-menu mode="inline" :open-keys="openKeys" :defaultSelectedKeys="openKeys" style="width: 256px;height:957px" @openChange="onOpenChange">
           <a-sub-menu key="sub1">
             <span slot="title">
-              <a-icon type="ant-design" /><span>Navigation One</span>
+              <a-icon type="ant-design" /><span>咨询师</span>
             </span>
-            <a-menu-item key="1">
-              Option 1
-            </a-menu-item>
-            <a-menu-item key="2">
-              Option 2
-            </a-menu-item>
-            <a-menu-item key="3">
-              Option 3
-            </a-menu-item>
-            <a-menu-item key="4">
-              Option 4
+            <a-menu-item key="sub1">
+              咨询师列表
             </a-menu-item>
           </a-sub-menu>
-          <a-sub-menu key="sub2">
+          <a-sub-menu disabled key="sub2">
             <span slot="title">
-              <a-icon type="ant-design" /><span>Navigation Two</span>
+              <a-icon type="ant-design" /><span>待开放内容</span>
             </span>
             <a-menu-item key="5">
               Option 5
@@ -66,13 +57,10 @@
               全部
             </a-radio-button>
             <a-radio-button value="b">
-              类目一
+              易愿达认证咨询师
             </a-radio-button>
             <a-radio-button value="c">
-              类目二
-            </a-radio-button>
-            <a-radio-button value="d">
-              类目三
+              易愿达优秀咨询师
             </a-radio-button>
           </a-radio-group>
         </div>
@@ -94,11 +82,10 @@
           </div>
         </div>
         <div class="bottom-card">
-          <a-card hoverable style="width: 300px">
-            <img slot="cover" alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />
-            <a-card-meta style="font-size:15px" title="Card title" description="This is the description">
+          <a-card v-for="(item,index) in teacherList" :key="index" style="width: 300px;margin:30px 0px 0 30px">
+            <img style="width:300px;height:155px;object-fit: scale-down" slot="cover" alt="example" :src="item.teacher_photo" />
+            <a-card-meta style="font-size:15px" :title="item.teacher_name" :description="item.presentation">
               <a-avatar slot="avatar" style="float:right" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-              <span>abc</span>
             </a-card-meta>
             <a-card-meta style="font-size:13px;padding-top:13px" description="5hours ago">
             </a-card-meta>
@@ -110,6 +97,7 @@
 </template>
 
 <script>
+import atdapi from '@/api/teacher'
 export default {
   data () {
     return {
@@ -129,8 +117,12 @@ export default {
         }
       ],
       rootSubmenuKeys: ['sub1', 'sub2', 'sub4'],
-      openKeys: ['sub1']
+      openKeys: ['sub1'],
+      teacherList: []
     }
+  },
+  mounted () {
+    this.getTeacherList('all')
   },
   methods: {
     // 点击菜单
@@ -145,6 +137,34 @@ export default {
     // 搜索
     onSearch () {
 
+    },
+    getTeacherList (value) {
+      atdapi.getTeacherList({ params: this.form }).then(res => {
+        let list = []
+        if (value === 'all') {
+          res.data.data.forEach(element => {
+            element.teacher_photo = element.teacher_photo === '' ? require('../../assets/teacher-avator.jpg') : element.teacher_photo
+            list.push(element)
+          })
+          this.teacherList = list
+        } else if (value === 'one') {
+          res.data.data.forEach(element => {
+            if (element.product_class_id === 'one') {
+              list.push(element)
+            }
+          })
+          this.productList = list
+        } else if (value === 'second') {
+          res.data.data.forEach(element => {
+            if (element.product_class_id === 'second') {
+              list.push(element)
+            }
+          })
+          this.productList = list
+        }
+      }).finally(() => {
+        this.loadTable = false
+      })
     },
     // 条件搜索完成
     handleChange () { }
@@ -215,7 +235,8 @@ export default {
         padding-left: 32px;
       }
       .bottom-card {
-        margin-top: 35px;
+        display: flex;
+        flex-wrap: wrap;
         .ant-card-meta-avatar {
           float: right;
         }
