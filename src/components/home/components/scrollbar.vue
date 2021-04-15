@@ -2,7 +2,7 @@
   <div class="my-outbox">
     <div class="my-inbox" ref='box'>
       <div class="my-list" v-for="(item,index) in sendVal" :key='index'>
-        {{item.college_name}}
+        {{item.collegeName}}
       </div>
     </div>
   </div>

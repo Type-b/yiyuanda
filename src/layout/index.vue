@@ -1,8 +1,8 @@
 <template>
   <div>
     <a-layout id="components-layout-demo-fixed">
-      <a-layout-header :style="{ position: 'fixed', zIndex: 9999, width: '100%', display:'flex', alignItems:'center',borderBottom:'1px solid #000',fontFamily: 'pingFangZhun' }">
-        <span @click="changeMenu('home')" style="font-family:'Digital';color:#000;font-size:40px;cursor:point">易愿达</span>
+      <a-layout-header :style="{ position: 'fixed', zIndex: 10, width: '100%', display:'flex', alignItems:'center',borderBottom:'1px solid #000',fontFamily: 'pingFangZhun' }">
+        <img @click="changeMenu('home')" src="../assets/logo.png" style="width:102px;height:26px;cursor:point" />
         <a-menu theme="dark" mode="horizontal" :default-selected-keys="keys" :style="{ lineHeight: '64px' }">
           <a-menu-item key="home" @click="changeMenu('home')">
             首页
@@ -16,11 +16,31 @@
           <a-menu-item key="About" @click="changeMenu('About')">
             关于我们
           </a-menu-item>
-          <a-menu-item key="About2" @click="changeMenu('About')">
+          <a-menu-item style="margin-left:189px" key="About2" @click="changeMenu('About')">
             在线咨询
           </a-menu-item>
-          <a-menu-item key="login" @click="changeMenu('login')">
+          <a-menu-item v-if="!isLogin" key="login">
             <a-button @click="login" style="width:102px;background-color:#36BEB4;color:#ffffff">登录账号</a-button>
+          </a-menu-item>
+          <a-menu-item class="menu-item" v-if="isLogin">
+            <span style="padding:0px 10px">
+              您好！
+            </span>
+            <a-dropdown>
+                <a-avatar size="small" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+              <a-menu slot="overlay">
+                <a-menu-item>
+                  <a href="javascript:;">个人中心</a>
+                </a-menu-item>
+                <a-menu-item>
+                  <a href="javascript:;">结算中心</a>
+                </a-menu-item>
+                <a-menu-item>
+                  <a @click="logout">退出登陆</a>
+                </a-menu-item>
+              </a-menu>
+            </a-dropdown>
+
           </a-menu-item>
         </a-menu>
       </a-layout-header>
@@ -33,29 +53,31 @@
             <span class="footer-logo">易愿达</span>
             <span style="color:white">一对一高考志愿填报专家</span>
           </div>
-          <div style="" class="footer-top">
-            <span class="footer-title">产品中心</span>
+          <div class="footer-top">
+            <router-link target="_blank" :to="{path:'/product'}" class="footer-title">产品中心</router-link>
             <div style="padding-top:16px;display:flex;flex-direction:column">
-              <span class="footer-child">API文档</span>
-              <span class="footer-child">快速入门</span>
-              <span class="footer-child">参考指南</span>
+              <router-link target="_blank" :to="{path:'/product'}" class="footer-child">API文档</router-link>
+              <router-link target="_blank" :to="{path:'/product'}" class="footer-child">快速入门</router-link>
+              <router-link target="_blank" :to="{path:'/product'}" class="footer-child">参考指南</router-link>
             </div>
             <span>API文档</span>
           </div>
           <div class="footer-top">
-            <span class="footer-title">咨询师库</span>
+            <router-link target="_blank" :to="{path:'/Consultant'}" class="footer-title">咨询师库</router-link>
             <div style="padding-top:16px;display:flex;flex-direction:column">
-              <span class="footer-child">介绍</span>
-              <span class="footer-child">咨询师列表</span>
+              <router-link target="_blank" :to="{path:'/Consultant'}" class="footer-child">介绍</router-link>
+              <router-link target="_blank" :to="{path:'/Consultant'}" class="footer-child">咨询师列表</router-link>
             </div>
           </div>
           <div class="footer-top">
-            <span class="footer-title">关于我们</span>
+            <router-link target="_blank" :to="{path:'/About'}">
+             <span class="footer-title">关于我们</span>
+            </router-link>
             <div style="padding-top:16px;display:flex;flex-direction:column">
-              <span class="footer-child">公司介绍</span>
-              <span class="footer-child">加盟商合作</span>
-              <span class="footer-child">合作结构</span>
-              <span class="footer-child">商业推广</span>
+                <router-link target="_blank" :to="{path:'/About'}" class="footer-child">公司介绍</router-link>
+                <router-link target="_blank" :to="{path:'/About'}" class="footer-child">加盟商合作</router-link>
+                <router-link target="_blank" :to="{path:'/About'}" class="footer-child">合作结构</router-link>
+                <router-link target="_blank" :to="{path:'/About'}" class="footer-child">商业推广</router-link>
             </div>
           </div>
           <div class="footer-top">
@@ -78,15 +100,25 @@
 </template>
 
 <script>
-
+function debounce (func, wait = 200) { // 可以放入项目中的公共方法中进行调用（鹅只是省事）
+  let timeout
+  return function (event) {
+    clearTimeout(timeout)
+    timeout = setTimeout(() => {
+      func.call(this, event)
+    }, wait)
+  }
+}
 export default {
   data () {
     return {
-      keys: ''
+      keys: '',
+      isLogin: false
     }
   },
   created () {
     this.keys = [this.$route.name]
+    this.isLogin = this.$store.state.token
   },
   methods: {
     onCollapse (collapsed, type) {
@@ -97,17 +129,34 @@ export default {
     },
     // 登录
     login () {
-      this.$router.push('login')
+      this.$router.push('/login')
     },
-    changeMenu (route) {
-      // 获取路由对象并切换
-      this.$router.push(route)
-    }
+    // 退出登陆
+    logout () {
+      this.$store.commit('LOGOUT')
+      this.$message.success('退出成功')
+      this.$router.push('/home')
+    },
+    changeMenu: debounce(function (route) {
+      if (this.$route.name === route) {
+        this.$router.go(0)
+      } else {
+        this.$router.push({path: '/' + route})
+      }
+    })
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.menu-item{
+  color:#000 !important;
+  display: flex;
+  align-items: center;
+  padding: 0 !important;
+  margin:0 12px;
+  border-left:1px solid #000000;
+}
 .ant-menu-item{
   line-height: 0px !important;
 }
@@ -168,11 +217,13 @@ export default {
   .footer-title {
     color: #cccccc;
     font-size: 18px;
+    cursor: pointer;
   }
   .footer-child {
     color: #cccccc;
     font-size: 12px;
     padding-top: 5px;
+    cursor: pointer;
   }
   .footer-img {
     margin-top: 15px;

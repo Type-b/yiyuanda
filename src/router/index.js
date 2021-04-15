@@ -1,7 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import store from '../store/index'
+// eslint-disable-next-line no-unused-vars
 import NProgress from 'nprogress'
+import computeTime from '../utils/computeTime.js'
+import 'nprogress/nprogress.css'
+// import { sort } from 'semver'
 Vue.use(Router)
 
 // 切换路由回到页顶
@@ -11,7 +15,13 @@ Router.prototype.push = function push (location) {
 }
 
 const router = new Router({
-  mode: 'hash',
+  mode: 'history',
+  scrollBehavior (to, from, savedPosition) {
+    return {
+      x: 0,
+      y: 0
+    }
+  },
   routes: [
     {
       path: '/',
@@ -20,81 +30,158 @@ const router = new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ '../layout/index.vue'),
+      component: () => import(/* webpackChunkName: "about" */ '../layout/index.vue')
+    },
+    {
+      path: '/home',
+      name: 'home',
+      meta: {
+        chineseName: '首页'
+      },
+      desc: '',
+      component: resolve => require(['../layout/index.vue'], resolve),
       children: [
         {
-          path: '/home',
           name: 'home',
-          meta: {
-            chineseName: '首页'
-          },
-          desc: '',
-          component: () => import('../components/home/index.vue')
-        },
+          path: '',
+          meta: { title: '首页', icon: 'home' },
+          component: resolve => require(['../components/home/index.vue'], resolve)
+        }
+      ]
+    },
+    {
+      path: '/product',
+      name: 'product',
+      meta: {
+        chineseName: '产品列表'
+      },
+      desc: '',
+      component: resolve => require(['../layout/index.vue'], resolve),
+      children: [
         {
-          path: '/product',
           name: 'product',
-          meta: {
-            chineseName: '产品列表'
-          },
-          desc: '',
-          component: () => import('../components/product/index.vue')
+          path: '',
+          meta: { title: '产品列表', icon: 'home' },
+          component: resolve => require(['../components/product/index.vue'], resolve)
         },
         {
-          path: '/Consultant',
+          path: '/product/detail',
+          name: 'detail',
+          meta: {
+            chineseName: '产品详情'
+          },
+          desc: '',
+          component: resolve => require(['../components/product/productDetail/index.vue'], resolve)
+        }
+      ]
+    },
+
+    {
+      path: '/Consultant',
+      name: 'Consultant',
+      meta: {
+        chineseName: '产品列表'
+      },
+      desc: '',
+      component: resolve => require(['../layout/index.vue'], resolve),
+      children: [
+        {
           name: 'Consultant',
+          path: '',
           meta: {
             chineseName: '咨询师库'
           },
           desc: '',
-          component: () => import('../components/teacher/index.vue')
+          component: resolve => require(['../components/teacher/index.vue'], resolve)
         },
         {
-          path: '/About',
+          name: 'ConsultantDetail',
+          path: '/Consultant/teacherDetail',
+          meta: {
+            chineseName: '咨询师详情'
+          },
+          desc: '',
+          component: resolve => require(['../components/teacher/teacherDetail/index.vue'], resolve)
+        }
+      ]
+    },
+    {
+      path: '/About',
+      name: 'About',
+      meta: {
+        chineseName: '关于我们',
+        requireAuth: false // 添加该字段，表示进入这个路由是需要登录的
+      },
+      desc: '',
+      component: resolve => require(['../layout/index.vue'], resolve),
+      children: [
+        {
           name: 'About',
+          path: '',
           meta: {
-            chineseName: '关于我们',
-            requireAuth: false // 添加该字段，表示进入这个路由是需要登录的
+            chineseName: '关于我们'
           },
           desc: '',
-          component: () => import('../components/about/index.vue')
-        },
+          component: resolve => require(['../components/about/index.vue'], resolve)
+        }
+      ]
+    },
+    {
+      path: '/login',
+      name: 'login',
+      meta: {
+        chineseName: '登录'
+      },
+      desc: '',
+      component: resolve => require(['../layout/index.vue'], resolve),
+      children: [
         {
-          path: '/login',
           name: 'login',
+          path: '',
           meta: {
-            chineseName: '登录'
+            chineseName: '登陆'
           },
           desc: '',
-          component: () => import('../components/login/login.vue')
-        },
+          component: resolve => require(['../components/login/login.vue'], resolve)
+        }
+      ]
+    },
+    {
+      path: '/register',
+      name: 'register',
+      meta: {
+        chineseName: '注册'
+      },
+      desc: '',
+      component: resolve => require(['../layout/index.vue'], resolve),
+      children: [
         {
-          path: '/register',
           name: 'register',
+          path: '',
           meta: {
             chineseName: '注册'
           },
           desc: '',
-          component: () => import('../components/login/register.vue')
+          component: resolve => require(['../components/login/register.vue'], resolve)
         }
       ]
     }
   ]
 })
-router.beforeEach((to, from, next) => {
-  // 每次切换页面时，调用进度条
-  NProgress.start()
-
-  // 这个一定要加，没有next()页面不会跳转的。这部分还不清楚的去翻一下官网就明白了
-  next()
-})
-router.afterEach(() => {
-  // 在即将进入新的页面组件前，关闭掉进度条
-  NProgress.done()
-})
 // // 注册全局钩子用来拦截导航
 router.beforeEach((to, from, next) => {
+  const start = new Date()
+  const startDate = store.state.startTime
+  const endDate = start.valueOf()
+  const expire = store.state.expire
+  if (computeTime(startDate, endDate) > expire) {
+    store.commit('LOGOUT')
+  }
   const token = store.state.token
+  NProgress.start()
+  // 调用 next()，一定要调用 next 方法，否则钩子就不会被销毁
+  next()
+
   if (to.meta.requireAuth) { // 判断该路由是否需要登录权限
     if (token) { // 通过vuex state获取当前的token是否存在
       next()
@@ -108,5 +195,9 @@ router.beforeEach((to, from, next) => {
   } else {
     next()
   }
+})
+router.afterEach(() => {
+  // 在即将进入新的页面组件前，关闭掉进度条
+  NProgress.done()
 })
 export default router

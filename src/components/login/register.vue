@@ -1,14 +1,14 @@
 <template>
   <div class="page-main-login">
-    <span class="login-logo">易愿达</span>
+    <img src="../../assets/logo.png" class="login-logo"/>
     <div style="width:380px;">
       <span class="title-register">注册</span>
     </div>
     <a-form-model id="components-form-demo-normal-login" ref="form" :model="formData" okType="default" :rules="formRule" class="login-form-register">
       <a-form-model-item prop="password" style="display:flex" has-feedback>
         <a-popconfirm trigger="click" :cancelText="null" :defaultVisible="false" :icon='popTitle' placement="right">
-          <a-input style="width:380px" v-model="formData.password" @change="passwordWatch(formData.password)" placeholder="6-16位密码，区分大小写">
-          </a-input>
+          <a-input-password style="width:380px" v-model="formData.password" @change="passwordWatch(formData.password)" placeholder="6-16位密码，区分大小写">
+          </a-input-password>
           <template slot="title">
             <a-progress v-show="this.passwordStatus ==='warnning'" :format="()=>'请至少输入 6 个字符，且在数字、小写字母 、大写字母以及特殊字符中四选三。'" :percent="33" status="exception" size="small" />
             <a-progress v-show="this.passwordStatus ==='well'" :percent="66" :format="()=>'请至少输入 6 个字符，且在数字、小写字母 、大写字母以及特殊字符中四选三。'" size="small" status="normal" strokeColor="#FFD000" />
@@ -17,8 +17,8 @@
         </a-popconfirm>
       </a-form-model-item>
       <a-form-model-item prop="passwordAgain" has-feedback>
-        <a-input style="width:380px" v-model="formData.passwordAgain" placeholder="确认密码">
-        </a-input>
+        <a-input-password style="width:380px" v-model="formData.passwordAgain" placeholder="确认密码">
+        </a-input-password>
       </a-form-model-item>
       <a-form-model-item prop="phoneNumber" has-feedback>
         <a-input style="width:380px" v-model="formData.phoneNumber" placeholder="11位手机号">
@@ -34,20 +34,30 @@
       </a-form-model-item>
       <div style="display:flex">
         <a-form-model-item prop="verification" has-feedback>
-          <a-input style="width:270px" v-model="formData.verification" placeholder="验证码">
+          <a-input style="width:270px" v-model="formData.verification" placeholder="请输入验证码">
           </a-input>
         </a-form-model-item>
-        <a-button @click="getverificationCode" style="width:102px;margin-left:8px;margin-top:3px">获取验证码</a-button>
+        <a-button v-if="isFirstCode" :disabled="isButtonCode" @click="getverificationCode" style="width:102px;margin-left:8px;margin-top:4px">获取验证码</a-button>
+        <a-button v-if="!isFirstCode" :disabled="isButtonCode" @click="getverificationCode" style="width:102px;margin-left:8px;margin-top:4px">重新获取<span v-show="isSetInterVal">({{timer}})</span></a-button>
       </div>
       <div>
-        <a-button style="width:176px" html-type="submit" type="primary" @click="handleSubmit">注册</a-button>
+        <a-button style="width:176px" :loading="isLoading" html-type="submit" type="primary" @click="handleSubmit">注册</a-button>
         <span @click="goLogin" style="color:rgba(24, 144, 255, 1);cursor:pointer;margin-left:92px">使用已有账户登录</span>
       </div>
     </a-form-model>
+    <a-modal v-model="visible" title="机构认证代码" okText="确认" cancelText="取消"
+    @ok="handleRegister"
+    @cancel="cancelModal"
+    :ok-button-props="{ props: { disabled: isGetCode } }">
+      <p>请输入您的6位机构认证代码，点击“应用”进行查验。<br>如果您是个人用户，请直接输入6个0</p>
+      <a-input class="modal-input" v-model="institudeCode"></a-input>
+      <a-button @click="findInstitudeCode" class="modal-button">应用</a-button>
+    </a-modal>
   </div>
 </template>
 
 <script>
+import api from '@/api/login'
 export default {
   data () {
     // 密码验证
@@ -102,7 +112,6 @@ export default {
     }
     // 手机号验证
     const VALIDATEPHONECHECK = (rule, value, callback) => {
-      console.log(value)
       if (value === '') {
         callback(new Error('请输入手机号'))
       } else {
@@ -115,6 +124,20 @@ export default {
       passwordStatus: 'warnning',
       // 气泡框强度
       popTitle: '强度：差',
+      // 是否可获取验证码
+      isButtonCode: true,
+      // 弹窗
+      visible: false,
+      // 初次获取验证码
+      isFirstCode: true,
+      isSetInterVal: false,
+      // 机构验证码验证
+      isGetCode: true,
+      isLoading: false,
+      // 时间
+      timer: 60,
+      // 机构认证代码
+      institudeCode: '',
       formData: {
         // 账号
         userName: '',
@@ -150,12 +173,40 @@ export default {
   },
   created () {
   },
+  watch: {
+    'formData.phoneNumber' () {
+      this.$refs['form'].validateField('phoneNumber', (verifycodeCheck) => {
+        if (verifycodeCheck === '') {
+          this.isButtonCode = false
+        }
+      })
+    }
+  },
   methods: {
     goLogin () {
       this.$router.push('login')
     },
     // 获取验证码
     getverificationCode () {
+      api.getVerificationCode(this.formData.phoneNumber).then(res => {
+        if (res.data.success === true) {
+          this.$message.success('验证码已发送')
+          this.isButtonCode = true
+          this.isSetInterVal = true
+          this.isFirstCode = false
+          let authTimer = setInterval(() => { // 定时器设置每秒递减
+            this.timer-- // 递减时间
+            if (this.timer <= 0) {
+              this.isSetInterVal = false // 60s时间结束还原v-show状态并清除定时器
+              this.isButtonCode = false
+              clearInterval(authTimer)
+              this.timer = 60
+            }
+          }, 1000)
+        } else {
+          this.$message.error(res.data.data.message)
+        }
+      })
     },
     // 密码强度监听
     passwordWatch (value) {
@@ -203,12 +254,50 @@ export default {
         }
       }
     },
+    // 验证机构码
+    findInstitudeCode () {
+      api.findInstitudeCode({params: {code: this.institudeCode}}).then(res => {
+        if (res.data.success) {
+          this.isGetCode = false
+          this.$message.success('代码验证成功，请点击确定以继续。')
+        } else {
+          this.$message.error('没有查询到该代码，请重新输入！')
+        }
+      })
+    },
     // 注册验证
     handleSubmit (form) {
+      this.visible = true
       this.$refs['form'].validate((valid) => {
         if (valid) {
-
+          if (this.institudeCode === '') {
+            this.visible = true
+          }
         }
+      })
+    },
+    // 关掉弹窗
+    cancelModal () {
+      this.isGetCode = true
+      this.institudeCode = ''
+    },
+    // 注册
+    handleRegister () {
+      let obj = {
+        phone: this.formData.phoneNumber,
+        code: this.formData.verification
+      }
+      api.findVerificationCode({params: obj}).then(res => {
+        this.isLoading = true
+        if (res.data.message) {
+          this.$message.success('注册成功，为您跳转登陆界面')
+          this.$router.push('/login')
+          this.$router.go(0)
+        } else {
+          this.$message.error(res.data.data.message)
+        }
+      }).finally(() => {
+        this.isLoading = false
       })
     }
   }
@@ -230,9 +319,8 @@ export default {
     padding-bottom: 8px;
   }
   .login-logo {
-    font-family: "Digital";
-    color: #000;
-    font-size: 40px;
+    width:102px;
+    height:26px;
     margin-top: 160px;
   }
   .login-form-register {
@@ -245,6 +333,24 @@ export default {
       width: 380px;
     }
   }
+}
+.modal-input{
+    width:226px;
+    height:38px;
+    border-radius:26px;
+    border: 1px solid #000;
+    font-family: 'PingFangHei';
+    font-size: 21px;
+    letter-spacing: 2px;
+    margin-top: 25px;
+}
+.modal-button{
+  background:#000;
+  width:82px;
+  height:38px;
+  border-radius:26px;
+  color:#fff;
+  margin-left:19px
 }
 .ant-popover-inner-content {
   width: 272px;

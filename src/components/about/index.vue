@@ -23,7 +23,7 @@
         <span style="width:870px;font-size:48px;line-height:63px;font-family:pingFangHei">优秀数据的背后，是来自我们优中选优的顶尖师资。 </span>
         <div style="display:flex">
           <span style="width:540px;margin-top:48px;font-size:23px">筛选来自全国各地高校咨询师，不仅严格严选，更是定期开展高考政策研究与院校研究，实时更新我们的数据库。保证为学生提供最新最全的信息资源。 </span>
-          <div style="display:flex;flex-direction:column;padding-left:119px;text-align:right">
+          <div style="display:flex;flex-direction:column;padding-left:119px;text-align:right;margin-top:-20px">
             <span style="font-size:72px">99%</span>
             <span style="font-size:36px;color:rgba(109, 114, 120, 1);line-height:18px">高考志愿填报满意率</span>
             <span style="font-size:72px">42%</span>

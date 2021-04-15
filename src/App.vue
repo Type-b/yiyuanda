@@ -21,6 +21,8 @@ export default {
 </script>
 
 <style>
+/* html {FILTER: gray}
+body {filter: gray;} */
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -28,10 +30,6 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
-}
-@font-face {
-  font-family: "Digital";
-  src: url("./assets/YouSheBiaoTiHei.ttf");
 }
 @font-face {
   font-family: "PingFangCu";

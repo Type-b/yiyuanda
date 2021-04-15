@@ -64,7 +64,7 @@
             </a-radio-button>
           </a-radio-group>
         </div>
-        <div style="display:flex;color:rgba(0, 0, 0, 0.85);font-size:14px;padding:21px 0 0 40px;align-items:center">
+        <!-- <div style="display:flex;color:rgba(0, 0, 0, 0.85);font-size:14px;padding:21px 0 0 40px;align-items:center">
           <span>其它选项：</span>
           <span style="padding-left:24px">作者：</span>
           <a-select placeholder="不限" style="width: 226px" @change="handleChange">
@@ -80,15 +80,16 @@
               </a-select-option>
             </a-select>
           </div>
-        </div>
+        </div> -->
         <div class="bottom-card">
-          <a-card v-for="(item,index) in teacherList" :key="index" style="width: 300px;margin:30px 0px 0 30px">
-            <img style="width:300px;height:155px;object-fit: scale-down" slot="cover" alt="example" :src="item.teacher_photo" />
-            <a-card-meta style="font-size:15px" :title="item.teacher_name" :description="item.presentation">
-              <a-avatar slot="avatar" style="float:right" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+          <a-card @click="goTeacherDetail(item.id)" v-for="(item,index) in teacherList" hoverable :key="index" style="width: 277px;margin:30px 100px 0 30px">
+            <img style="width:277px;height:167px;object-fit: contain;background:#E9E9E9" slot="cover" alt="example" :src="item.photoTransparent" />
+            <a-card-meta style="font-size:15px" :title="item.name">
+              <span slot="description">{{item.major}}</span>
             </a-card-meta>
-            <a-card-meta style="font-size:13px;padding-top:13px" description="5hours ago">
-            </a-card-meta>
+            <!-- <a-card-meta style="font-size:13px;padding-top:13px" description="5hours ago">
+              <span style="font-size:25px;color:#000">1231</span>
+            </a-card-meta> -->
           </a-card>
         </div>
       </div>
@@ -101,6 +102,8 @@ import atdapi from '@/api/teacher'
 export default {
   data () {
     return {
+      // 咨询师介绍
+      detailList: [],
       // 作者列表
       authorList: [
         {
@@ -138,24 +141,28 @@ export default {
     onSearch () {
 
     },
+    // 咨询师详情
+    goTeacherDetail (id) {
+      this.$router.push({path: '/Consultant/teacherDetail', query: {id: id}})
+    },
     getTeacherList (value) {
       atdapi.getTeacherList({ params: this.form }).then(res => {
         let list = []
         if (value === 'all') {
-          res.data.data.forEach(element => {
-            element.teacher_photo = element.teacher_photo === '' ? require('../../assets/teacher-avator.jpg') : element.teacher_photo
+          res.data.data.rows.forEach(element => {
+            element.photo = element.photo === '' ? require('../../assets/teacher-avator.jpg') : element.photo
             list.push(element)
           })
           this.teacherList = list
         } else if (value === 'one') {
-          res.data.data.forEach(element => {
+          res.data.data.rows.forEach(element => {
             if (element.product_class_id === 'one') {
               list.push(element)
             }
           })
           this.productList = list
         } else if (value === 'second') {
-          res.data.data.forEach(element => {
+          res.data.data.rows.forEach(element => {
             if (element.product_class_id === 'second') {
               list.push(element)
             }
@@ -173,6 +180,16 @@ export default {
 </script>
 
 <style lang="scss">
+.ant-card-meta-detail{
+  overflow: revert;
+}
+.ant-card-meta-title{
+  font-size: 21px;
+}
+.ant-card-meta-description{
+  display: flex;
+  flex-wrap: wrap;
+}
 .page-main {
   color: #000;
   height: calc(100% - 185px);

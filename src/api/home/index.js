@@ -3,7 +3,9 @@ const { $http, $default } = http
 
 const api = {
   getaccesslist () {
-    return $default.get('/ys/workEmployee/queryAllCollege')
+    return $default.get('/yyd/college/queryAllCollege').then(resp => {
+      return resp
+    }).catch((err) => { return err })
   },
 
   getaccesstype () {

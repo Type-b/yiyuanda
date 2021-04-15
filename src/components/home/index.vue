@@ -3,8 +3,8 @@
     <div class="title-top">
       <span class="title-text">让你的愿望,</span>
       <span class="title-text">更容易到达<span class="title-text" style="color:#36BEB4">。</span></span>
-      <div style="margin-top:21px;font-size:21px;width:507px;color:#000">
-        <span>易愿达是中国首家<span style="color:#36BEB4">在线一对一人工高考志愿填报平台</span>，致力于为考生提供专业化、流程化、系统化的填报工作，招募了来自全国各地高校老师、大学生、职场精英并经过我们培训为您提供精准化的服务。</span>
+      <div style="margin-top:21px;font-size:21px;width:507px;color:white">
+        <span>易愿达是中国首家在线一对一人工高考志愿填报平台，致力于为考生提供专业化、流程化、系统化的填报工作，招募了来自全国各地高校老师、大学生、职场精英并经过我们培训为您提供精准化的服务。</span>
       </div>
     </div>
     <div class="page-middle">
@@ -45,6 +45,31 @@
         <span class="text-big" style="margin-top:40px;font-size:72px;font-family: pingFangHei">98%</span>
         <span class="text-little">好评率</span>
       </div>
+      <div class="bottom-right">
+        <div
+          v-infinite-scroll="handleInfiniteOnLoad"
+          class="demo-infinite-container"
+          :infinite-scroll-disabled="busy"
+          :infinite-scroll-distance="10"
+        >
+    <a-list :data-source="data">
+      <a-list-item style="display:flex;flex-direction:column" slot="renderItem" slot-scope="item, index">
+        <a-list-item-meta>
+          <a slot="title" style="margin-left:20px" :href="item.href">{{ item.name }}</a>
+          <a-avatar
+            slot="avatar"
+            src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+          />
+        </a-list-item-meta>
+        <div style="margin:20px 0">{{ item.content }}</div>
+        <div style="color:rgba(255,255,255,0.5);">{{ item.email }}</div>
+      </a-list-item>
+      <div v-if="loading && !busy" class="demo-loading-container">
+        <a-spin />
+      </div>
+    </a-list>
+  </div>
+      </div>
     </div>
     <div class="bottom-start">
       <span style="color:#36BEB4;opacity:0.8;font-size:18px;margin-top:138px;font-weight:bold">立即开始</span>
@@ -56,9 +81,11 @@
   </div>
 </template>
 <script>
+import infiniteScroll from 'vue-infinite-scroll'
 import scrollBar from './components/scrollbar.vue'
 import atdapi from '@/api/home'
 export default {
+  directives: { infiniteScroll },
   components: {
     scrollBar
   },
@@ -107,7 +134,78 @@ export default {
       ],
       scrollListA: [],
       scrollListB: [],
-      scrollListC: []
+      scrollListC: [],
+      // 评论列表是否加载
+      loading: false,
+      busy: false,
+      // 评论列表
+      data: [
+        {
+          name: '夏*',
+          email: '2020届考生',
+          content: '十分感谢易愿达，让我可以如愿报考上中山大学！！！原本我以为我上不了中大，多亏于王老师的指导。'
+        },
+        {
+          name: '张*北',
+          email: '2018届考生',
+          content: '表扬易愿达的专业精神，李老师给我指明了明路，我一直纠结于不知道选择什么专业好，什么专业有前景。老师给我剖析的很透彻，让我可以如愿考上昆明理工大学。'
+        },
+        {
+          name: '陈*铭',
+          email: '2020届考生',
+          content: '那么好的机构就应该更多人知道～有着来自全国各地的高校咨询师可以选择，当时候想要报考华东师范大学，刚好有匹配的咨询师，让我知道应该怎么样专业选择，成功率更高。'
+        },
+        {
+          name: '葛*泽',
+          email: '2019届考生',
+          content: '老师的宝典报考指南也太好用了，学弟学妹们，一定要选择易愿达呀～还有帅气的小哥哥小姐姐！'
+        },
+        {
+          name: '丁*',
+          email: '2018届考生',
+          content: '当时候看到分数都快要哭出来了，不知地自己可以去什么学校感觉好一点学校都考不上。幸好有易愿达的老师帮忙，让我知道自己还是有优势的，最后成功被上海大学录取啦！'
+        },
+        {
+          name: '王*佳',
+          email: '2019届考生',
+          content: '当时候看到分数都快要哭出来了，不知地自己可以去什么学校感觉好一点学校都考不上。幸好有易愿达的老师帮忙，让我知道自己还是有优势的，最后成功被上海大学录取啦！'
+        },
+        {
+          name: '林*',
+          email: '2019届考生',
+          content: '因为易愿达，我被湖南师范大学录取啦！！！'
+        },
+        {
+          name: '赵*东',
+          email: '2020届考生',
+          content: '因为易愿达，我被中南大学录取啦！！！'
+        },
+        {
+          name: '罗*',
+          email: '2020届考生',
+          content: '因为易愿达，我被重庆邮电大学录取啦！！！'
+        },
+        {
+          name: '陈*雨',
+          email: '2019届考生',
+          content: '因为易愿达，我被湖南大学录取啦！！！'
+        },
+        {
+          name: '刘*',
+          email: '2019届考生',
+          content: '因为易愿达，我被华中科技大学录取啦！！！'
+        },
+        {
+          name: '张*北',
+          email: '2019届考生',
+          content: '因为易愿达，我被北京师范大学录取啦！！！'
+        },
+        {
+          name: '张*',
+          email: '2018届考生',
+          content: '因为易愿达，我被中国农业大学录取啦！！！'
+        }
+      ]
     }
   },
   mounted () {
@@ -118,7 +216,7 @@ export default {
     onSearch () { },
     getlist () {
       atdapi.getaccesslist({ params: this.form }).then(res => {
-        let data = res.data.data
+        let data = res.data.data.rows
         const length = parseInt(data.length / 3)
         let list1 = []
         let list2 = []
@@ -138,6 +236,15 @@ export default {
       }).finally(() => {
         this.loadTable = false
       })
+    },
+    handleInfiniteOnLoad () {
+      // const data = this.data
+      // this.loading = true
+      // if (data.length > 14) {
+      //   this.$message.warning('Infinite List loaded all')
+      //   this.busy = true
+      //   this.loading = false
+      // }
     }
   }
 }
@@ -151,8 +258,9 @@ export default {
     padding: 229px 0 278px 138px;
     display: flex;
     flex-direction: column;
+    background-image: url('https://www.yiyuanda.net/image/home-banner.jpg');
     .title-text {
-      color: #000;
+      color:white;
       font-size: 70px;
       font-family: "PingFangHei";
     }
@@ -250,6 +358,7 @@ export default {
     margin-top: 0;
     background: #000;
     display: flex;
+    height: 800px;
     .bottom-left {
       padding: 152px 0 228px 0;
       display: flex;
@@ -288,5 +397,46 @@ export default {
       background-color: #36beb4;
     }
   }
+}
+.demo-infinite-container {
+  border-radius: 4px;
+  overflow: auto;
+  padding: 8px 24px;
+  height: 100%;
+  margin-left:150px;
+}
+.ant-list-split .ant-list-item{
+  display: flex;
+  width:270px;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.08);
+  margin-top: 20px;
+  border-bottom: none;
+  border-radius: 10px;
+  padding: 15px;
+}
+.ant-list-split .ant-list-item:nth-child(2n){
+  display: flex;
+  width:270px;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.08);
+  margin-right: 250px;
+  border-bottom: none;
+  border-radius: 10px;
+  padding: 15px;
+}
+.ant-list *{
+  color:rgba(255, 255, 255, 0.8);
+  margin-right: auto;
+  display: flex;
+  align-items: center;
+  flex-wrap:wrap;
+  height:100%
+}
+.ant-list-item-meta{
+  flex: 0
+}
+.ant-list-item-meta-title > a{
+  color:rgba(255, 255, 255, 0.8);
 }
 </style>

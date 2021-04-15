@@ -53,7 +53,7 @@ const conf = {
 
 // 将优先的静态配置覆盖本配置
 function overrideConf () {
-  let urls = 'http://188.131.147.95'
+  let urls = 'http://188.131.147.95:8080'
   let root = conf.root
   if (urls) {
     for (let key in urls) {

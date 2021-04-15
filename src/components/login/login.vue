@@ -1,10 +1,10 @@
 <template>
   <div class="page-main-login">
-    <span class="logo">易愿达</span>
+    <img src="../../assets/logo.png" class="logo"/>
     <div style="width:368px;">
       <span class="title">账户密码登录</span>
     </div>
-    <a-form id="components-form-demo-normal-login" :form="form" class="login-form" @submit="handleSubmit">
+    <a-form id="components-form-demo-normal-login" :form="form" class="login-form">
       <a-form-item has-feedback>
         <a-input v-decorator="formRule.user" style="width:368px;margin-top:32px" placeholder="账户/手机号">
           <a-icon slot="prefix" type="user" style="color:rgba(24, 144, 255, 1)" />
@@ -17,14 +17,14 @@
       </a-form-item>
       <div class="before-login">
         <a-checkbox @change="loginAuto">
-          自动登录
+          30天内免登陆
         </a-checkbox>
         <div>
           <span style="color:rgba(24, 144, 255, 1);cursor:pointer">忘记密码</span>
         </div>
       </div>
       <a-form-item>
-        <a-button style="width:368px;margin-top:24px" html-type="submit" type="primary" @click="login">登录</a-button>
+        <a-button style="width:368px;margin-top:24px" html-type="button" type="primary" @click="handleSubmit">登录</a-button>
       </a-form-item>
       <a-button style="width:368px;" html-type="submit" @click="goRegister">注册</a-button>
     </a-form>
@@ -42,6 +42,7 @@ export default {
       userName: '',
       // 密码
       password: '',
+      autoLogin: false,
       formRule:
       {
         user: [
@@ -53,6 +54,8 @@ export default {
       }
     }
   },
+  created () {
+  },
   methods: {
     login () {
 
@@ -62,14 +65,23 @@ export default {
     },
     // 保持自动登录
     loginAuto () {
-
+      this.autoLogin = true
     },
     // 登录表单验证
     handleSubmit (e) {
+      // debugger
       e.preventDefault()
       this.form.validateFields((err, values) => {
         if (!err) {
-          console.log('Received values of form: ', values)
+          if (this.autoLogin) {
+            this.$store.commit('GET_USER', this.formRule.user[0])
+            this.$store.commit('SET_STARTIME', new Date().valueOf())
+            console.log(this.$store.state)
+          }
+          this.$store.commit('SET_TOKEN', true)
+          this.$message.success('登陆成功')
+        } else {
+          this.$message.error('登陆失败')
         }
       })
     }
@@ -93,9 +105,8 @@ export default {
     padding-bottom: 8px;
   }
   .logo {
-    font-family: "Digital";
-    color: #000;
-    font-size: 40px;
+    width:102px;
+    height:26px;
     margin-top: 160px;
   }
   .login-form {

@@ -48,7 +48,7 @@
         </a-breadcrumb>
         <span class="title">搜索列表（产品）</span>
         <div style="display:flex;justify-content:center;border-bottom:1px solid #E9E9E9">
-          <a-input-search style="margin:16px 0 0 0;width:450px;height:53px;" placeholder="一对一 专业介绍" enter-button="搜索" @search="onSearch" />
+          <a-input-search v-model="searchContent" style="margin:16px 0 0 0;width:450px;height:53px;" placeholder="一对一 专业介绍" enter-button="搜索" @search="onSearch" />
         </div>
         <div style="padding:24px 0 16px 0px;border-bottom:1px dashed #E9E9E9;margin-left:40px;margin-right:24px">
           <span>所属类目：</span>
@@ -64,7 +64,7 @@
             </a-radio-button>
           </a-radio-group>
         </div>
-        <div style="display:flex;color:rgba(0, 0, 0, 0.85);font-size:14px;padding:21px 0 0 40px;align-items:center">
+        <!-- <div style="display:flex;color:rgba(0, 0, 0, 0.85);font-size:14px;padding:21px 0 0 40px;align-items:center">
           <span>其它选项：</span>
           <span style="padding-left:24px">作者：</span>
           <a-select placeholder="不限" style="width: 226px" @change="handleChange">
@@ -80,14 +80,11 @@
               </a-select-option>
             </a-select>
           </div>
-        </div>
+        </div> -->
         <div class="bottom-card">
-          <a-card v-for="(item,index) in productList" :key="index" hoverable style="width: 300px;margin:30px 0px 0 30px">
-            <img slot="cover" alt="example" :src="item.product_img_url" />
-            <a-card-meta style="font-size:15px" :title="item.product_name" :description="item.prodcut_content">
-              <a-avatar slot="avatar" style="float:right" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-            </a-card-meta>
-            <a-card-meta style="font-size:13px;padding-top:13px" description="5hours ago">
+          <a-card @click="godetail(item.id)" v-for="(item,index) in productList" :key="index" hoverable style="width: 300px;margin:30px 0px 0 30px">
+            <img slot="cover" alt="example" :src="item.imgUrl" />
+            <a-card-meta style="font-size:15px" :title="item.name" :description="item.content">
             </a-card-meta>
           </a-card>
         </div>
@@ -117,6 +114,8 @@ export default {
           name: 'yiminghe'
         }
       ],
+      // 搜索名称或id
+      searchContent: '',
       rootSubmenuKeys: ['sub1', 'sub2', 'sub4'],
       openKeys: ['sub1']
     }
@@ -134,20 +133,24 @@ export default {
         this.openKeys = latestOpenKey ? [latestOpenKey] : []
       }
     },
+    // 产品详情
+    godetail (id) {
+      this.$router.push({path: '/product/detail', query: {id: id}})
+    },
     getProductList (value) {
-      atdapi.getProductList({ params: this.form }).then(res => {
+      atdapi.getProductList().then(res => {
         let list = []
         if (value === 'all') {
-          this.productList = res.data.data
+          this.productList = res.data.data.rows
         } else if (value === 'one') {
-          res.data.data.forEach(element => {
+          res.data.data.rows.forEach(element => {
             if (element.product_class_id === 'one') {
               list.push(element)
             }
           })
           this.productList = list
         } else if (value === 'second') {
-          res.data.data.forEach(element => {
+          res.data.data.rows.forEach(element => {
             if (element.product_class_id === 'second') {
               list.push(element)
             }
@@ -160,7 +163,12 @@ export default {
     },
     // 搜索
     onSearch () {
-
+      atdapi.getProductSearch({ params: { name: this.searchContent, limit: 10, current: 1 } }).then(res => {
+        this.productList = res.data.data.rows
+      }).finally(() => {
+        this.$message.success('查询成功')
+        this.loadTable = false
+      })
     },
     // 条件搜索完成
     handleChange () { }
