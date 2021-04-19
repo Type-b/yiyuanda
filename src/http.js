@@ -130,6 +130,11 @@ function requestInterceptor (config) {
   if (config.method === 'post') {
     config.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
     config.data = qs.stringify(config.data)
+  } else if (config.method === 'get') {
+    config.params = {
+      _t: Date.parse(new Date()) / 1000,
+      ...config.params
+    }
   }
   Spin.$create().start()
   return config

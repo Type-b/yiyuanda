@@ -215,7 +215,7 @@ export default {
     // 手机号存储
     onSearch () { },
     getlist () {
-      atdapi.getaccesslist({ params: this.form }).then(res => {
+      atdapi.getaccesslist().then(res => {
         let data = res.data.data.rows
         const length = parseInt(data.length / 3)
         let list1 = []

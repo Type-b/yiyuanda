@@ -9,17 +9,24 @@
         <div class="swiper-bottom">
           <span class="swiper-bottom-left">{{form.major}}</span>
         </div>
+        <div style="margin-top:18px;color:#6D7278;font-size:12px"><img style="width:32px;height:32px;margin-right:10px" src="../../../assets/profile-code.png" />咨询师统一认证编号:{{form.teacherCode}}</div>
       </div>
-      <!-- <div class="swiper-bottom-left">咨询师统一认证编号:{{form.}}</div> -->
       <img style="width:625px;heihgt:549px;padding-top: 38px;object-fit:scale-down" :src="form.photoTransparent">
     </div>
     <div class="page-bottom-product-teacher">
       <div class="page-bottom-left">
-        <span v-for="(item,index) in form.presentation" :key="index" class="title">{{item}}</span>
+        <div>
+          <span v-for="(item,index) in form.presentation" :key="index" class="title">{{item}}</span>
+        </div>
       </div>
-      <div class="story">{{form.teacherStory}}</div>
+     <div class="story">{{form.teacherStory}}</div>
     </div>
-    <div>123</div>
+    <!-- <div class="teacher-comment">
+      <span>对咨询师对评价都是这样说</span>
+    </div> -->
+    <div class="teacher-product">
+      <span>可以为你提供的服务</span>
+    </div>
   </div>
 </template>
 
@@ -77,6 +84,8 @@ export default {
       atdapi.getTeacherDetail(this.form.id).then(res => {
         res.data.data.rows.presentation = res.data.data.rows.presentation.split(',')
         this.form = res.data.data.rows
+        let str = '这撒啊撒爱上啊撒打算打算的啊'
+        console.log(str.slice(0,5))
         this.form.pinyin = HanziToPinyin.instance.codefans_net_CC2PY(this.form.name).toUpperCase()
       }).finally(() => {
         this.loadTable = false
@@ -100,12 +109,12 @@ export default {
   background: #fff;
   .page-swiper {
     width: 100%;
-    padding:0px 0 0 110px;
+    padding:0px 0 0 165px;
     height: 587px;
     display: flex;
     background: #F1F2F2;
     .swiper-top {
-      padding-top: 82px;
+      padding-top: 154px;
       line-height: 77px;
       width: 100%;
       flex-direction: column;
@@ -145,6 +154,11 @@ export default {
         color: #6D7278;
         white-space: pre-wrap;
       }
+  }
+  .teacher-product{
+    margin: 131px 0 0 165px;
+    font-size: 36px;
+    font-family: "PingFangCu";
   }
 }
 </style>

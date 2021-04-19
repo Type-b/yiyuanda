@@ -194,6 +194,7 @@ export default {
           this.isButtonCode = true
           this.isSetInterVal = true
           this.isFirstCode = false
+          console.log(this.isButtonCode);
           let authTimer = setInterval(() => { // 定时器设置每秒递减
             this.timer-- // 递减时间
             if (this.timer <= 0) {
@@ -257,6 +258,7 @@ export default {
     // 验证机构码
     findInstitudeCode () {
       api.findInstitudeCode({params: {code: this.institudeCode}}).then(res => {
+        console.log(res);
         if (res.data.success) {
           this.isGetCode = false
           this.$message.success('代码验证成功，请点击确定以继续。')
@@ -305,6 +307,24 @@ export default {
 </script>
 
 <style lang="scss">
+.modal-input{
+    width:226px;
+    height:38px;
+    border-radius:26px;
+    border: 1px solid #000;
+    font-family: 'PingFangHei';
+    font-size: 21px;
+    letter-spacing: 2px;
+    margin-top: 25px;
+}
+.modal-button{
+  background:#000;
+  width:82px;
+  height:38px;
+  border-radius:26px;
+  color:#fff;
+  margin-left:19px
+}
 .page-main-login {
   color: #000;
   height: 750px;
@@ -333,24 +353,6 @@ export default {
       width: 380px;
     }
   }
-}
-.modal-input{
-    width:226px;
-    height:38px;
-    border-radius:26px;
-    border: 1px solid #000;
-    font-family: 'PingFangHei';
-    font-size: 21px;
-    letter-spacing: 2px;
-    margin-top: 25px;
-}
-.modal-button{
-  background:#000;
-  width:82px;
-  height:38px;
-  border-radius:26px;
-  color:#fff;
-  margin-left:19px
 }
 .ant-popover-inner-content {
   width: 272px;

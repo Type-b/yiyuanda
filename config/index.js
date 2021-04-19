@@ -12,10 +12,11 @@ module.exports = {
     proxyTable: {
       '/yyd': {
         target: 'http://188.131.147.95:8080',
-        // changeOrigin: true,
         pathRewrite: {
           '^/yyd': '/yyd'
-        }
+        },
+        changeOrigin: true,
+        secure: false
       }
     },
 

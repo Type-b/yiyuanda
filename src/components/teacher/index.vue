@@ -83,7 +83,7 @@
         </div> -->
         <div class="bottom-card">
           <a-card @click="goTeacherDetail(item.id)" v-for="(item,index) in teacherList" hoverable :key="index" style="width: 277px;margin:30px 100px 0 30px">
-            <img style="width:277px;height:167px;object-fit: contain;background:#E9E9E9" slot="cover" alt="example" :src="item.photoTransparent" />
+            <img style="width:277px;height:167px;object-fit: contain;background:#E9E9E9" slot="cover" alt="example" v-lazy="item.photoTransparent" />
             <a-card-meta style="font-size:15px" :title="item.name">
               <span slot="description">{{item.major}}</span>
             </a-card-meta>

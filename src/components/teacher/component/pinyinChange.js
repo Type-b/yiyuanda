@@ -640,7 +640,6 @@ export class HanziToPinyin extends Vue {
       } else if (name !== false && i === 0) {
         I1 += name
         I1 += ' '
-        console.log(I1)
       } else if (name !== false) {
         I1 += name
       }

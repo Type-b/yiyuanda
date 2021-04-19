@@ -1,5 +1,5 @@
 import http from '../../http.js'
-const { $default } = http
+const { $http, $default } = http
 
 const api = {
   // 发送验证码

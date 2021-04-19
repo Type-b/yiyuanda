@@ -8,7 +8,7 @@
           <span class="type">{{form.name}}</span>
           <span class="content">{{form.content}}</span>
           <span class="price">¥{{form.price}}</span>
-          <a-steps style="margin-top:23px;width:300px" :current="0">
+          <a-steps style="margin-top:23px;width:450px" :current="0">
             <a-step>
             <!-- <span slot="title">Finished</span> -->
             <template slot="title">

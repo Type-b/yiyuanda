@@ -34,7 +34,6 @@ const router = new Router({
     },
     {
       path: '/home',
-      name: 'home',
       meta: {
         chineseName: '首页'
       },
@@ -51,7 +50,6 @@ const router = new Router({
     },
     {
       path: '/product',
-      name: 'product',
       meta: {
         chineseName: '产品列表'
       },
@@ -60,7 +58,7 @@ const router = new Router({
       children: [
         {
           name: 'product',
-          path: '',
+          path: '/product',
           meta: { title: '产品列表', icon: 'home' },
           component: resolve => require(['../components/product/index.vue'], resolve)
         },
@@ -78,7 +76,6 @@ const router = new Router({
 
     {
       path: '/Consultant',
-      name: 'Consultant',
       meta: {
         chineseName: '产品列表'
       },
@@ -87,7 +84,7 @@ const router = new Router({
       children: [
         {
           name: 'Consultant',
-          path: '',
+          path: '/Consultant',
           meta: {
             chineseName: '咨询师库'
           },
@@ -107,7 +104,6 @@ const router = new Router({
     },
     {
       path: '/About',
-      name: 'About',
       meta: {
         chineseName: '关于我们',
         requireAuth: false // 添加该字段，表示进入这个路由是需要登录的
@@ -117,7 +113,7 @@ const router = new Router({
       children: [
         {
           name: 'About',
-          path: '',
+          path: '/About',
           meta: {
             chineseName: '关于我们'
           },
@@ -128,7 +124,6 @@ const router = new Router({
     },
     {
       path: '/login',
-      name: 'login',
       meta: {
         chineseName: '登录'
       },
@@ -137,7 +132,7 @@ const router = new Router({
       children: [
         {
           name: 'login',
-          path: '',
+          path: '/login',
           meta: {
             chineseName: '登陆'
           },
@@ -148,7 +143,6 @@ const router = new Router({
     },
     {
       path: '/register',
-      name: 'register',
       meta: {
         chineseName: '注册'
       },
@@ -157,7 +151,7 @@ const router = new Router({
       children: [
         {
           name: 'register',
-          path: '',
+          path: '/register',
           meta: {
             chineseName: '注册'
           },
@@ -165,6 +159,13 @@ const router = new Router({
           component: resolve => require(['../components/login/register.vue'], resolve)
         }
       ]
+    },
+    {
+      path: '*',
+      hidden: true,
+      component: {
+        template: '<div>not found</div>'
+      }
     }
   ]
 })
