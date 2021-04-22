@@ -50,8 +50,8 @@
     @cancel="cancelModal"
     :ok-button-props="{ props: { disabled: isGetCode } }">
       <p>请输入您的6位机构认证代码，点击“应用”进行查验。<br>如果您是个人用户，请直接输入6个0</p>
-      <a-input class="modal-input" v-model="institudeCode"></a-input>
-      <a-button @click="findInstitudeCode" class="modal-button">应用</a-button>
+      <a-input class="modal-input-code" v-model="institudeCode"></a-input>
+      <a-button @click="findInstitudeCode" class="modal-button-code">应用</a-button>
     </a-modal>
   </div>
 </template>
@@ -194,7 +194,7 @@ export default {
           this.isButtonCode = true
           this.isSetInterVal = true
           this.isFirstCode = false
-          console.log(this.isButtonCode);
+          console.log(this.isButtonCode)
           let authTimer = setInterval(() => { // 定时器设置每秒递减
             this.timer-- // 递减时间
             if (this.timer <= 0) {
@@ -258,7 +258,7 @@ export default {
     // 验证机构码
     findInstitudeCode () {
       api.findInstitudeCode({params: {code: this.institudeCode}}).then(res => {
-        console.log(res);
+        console.log(res)
         if (res.data.success) {
           this.isGetCode = false
           this.$message.success('代码验证成功，请点击确定以继续。')
@@ -307,7 +307,15 @@ export default {
 </script>
 
 <style lang="scss">
-.modal-input{
+.ant-progress-text {
+  color: rgba(0, 0, 0, 0.65) !important;
+  width: 240px;
+  font-size: 13px;
+  white-space: pre-wrap;
+  margin: 9px 0 0 0;
+  line-height: normal;
+}
+.modal-input-code{
     width:226px;
     height:38px;
     border-radius:26px;
@@ -317,14 +325,15 @@ export default {
     letter-spacing: 2px;
     margin-top: 25px;
 }
-.modal-button{
+.modal-button-code{
   background:#000;
   width:82px;
   height:38px;
   border-radius:26px;
   color:#fff;
-  margin-left:19px
+  margin-left:19px;
 }
+
 .page-main-login {
   color: #000;
   height: 750px;
@@ -360,14 +369,6 @@ export default {
 }
 .ant-progress-show-info .ant-progress-outer {
   padding-top: 8px;
-}
-.ant-progress-text {
-  color: rgba(0, 0, 0, 0.65) !important;
-  width: 240px;
-  font-size: 13px;
-  white-space: pre-wrap;
-  margin: 9px 0 0 0;
-  line-height: normal;
 }
 .ant-popover-message {
   font-size: 14px;

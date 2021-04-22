@@ -1,12 +1,12 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
+import 'ant-design-vue/dist/antd.css';
 import App from './src/App'
 import router from './src/router'
 import axios from 'axios'
 import store from './src/store/index'
 import Antd from 'ant-design-vue'
-import 'ant-design-vue/dist/antd.css';
 import Vuex from 'vuex'
 import 'lib-flexible/flexible'
 import NProgress from 'nprogress'
@@ -17,7 +17,8 @@ Vue.use(Vuex)
 Vue.config.productionTip = false
 Vue.use(Antd)
 Vue.use(VueLazyLoad)
-axios.defaults.withCredentials = true
+// 禁止access origin为*
+// axios.defaults.withCredentials = true
 Vue.prototype.$axios=axios;
 Vue.prototype.$http = axios;
 NProgress.configure({     

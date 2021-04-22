@@ -3,7 +3,15 @@ export default {
   name: 'mycomponent',
   render: function (createElement) {
     return createElement(
-      'h' + this.level, // tag name 标签名称
+      'div', // tag name 标签名称
+      {
+        style: {
+          fontSize: '24px',
+          color: '#6D7278',
+          whiteSpace: 'pre-wrap',
+          marginTop: '48px'
+        }
+      },
       this.$slots.default // 子组件中的阵列
     )
   },

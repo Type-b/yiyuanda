@@ -15,8 +15,8 @@ module.exports = {
         pathRewrite: {
           '^/yyd': '/yyd'
         },
-        changeOrigin: true,
-        secure: false
+        changeOrigin: true
+        // secure: false
       }
     },
 

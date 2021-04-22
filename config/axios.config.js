@@ -41,7 +41,7 @@ const conf = {
   
   root: {
     default: {
-        baseURL: isPro ?  'http://188.131.147.95:8080' : 'http://localhost:8181'     //前面一个是你服务器的地址，后面一个是跨域的接口名
+        baseURL: isPro ?  'https://www.yiyuanda.net:8443' : 'http://localhost:8181'     //前面一个是你服务器的地址，后面一个是跨域的接口名
         // baseURL: 'http://188.131.147.95:8080'
     },
     picurl: {

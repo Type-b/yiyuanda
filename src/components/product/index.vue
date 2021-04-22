@@ -56,11 +56,14 @@
             <a-radio-button @click="getProductList('all')" value="a">
               全部
             </a-radio-button>
-            <a-radio-button @click="getProductList('one')" value="b">
-              1v1
+            <a-radio-button @click="getProductList('A')" value="b">
+              A级
             </a-radio-button>
-            <a-radio-button @click="getProductList('second')" value="c">
-              2v1
+            <a-radio-button @click="getProductList('A-plus')" value="c">
+              A+级
+            </a-radio-button>
+            <a-radio-button @click="getProductList('S')" value="d">
+              S级
             </a-radio-button>
           </a-radio-group>
         </div>
@@ -142,16 +145,23 @@ export default {
         let list = []
         if (value === 'all') {
           this.productList = res.data.data.rows
-        } else if (value === 'one') {
+        } else if (value === 'A') {
           res.data.data.rows.forEach(element => {
-            if (element.product_class_id === 'one') {
+            if (element.classId === 'A') {
               list.push(element)
             }
           })
           this.productList = list
-        } else if (value === 'second') {
+        } else if (value === 'A-plus') {
           res.data.data.rows.forEach(element => {
-            if (element.product_class_id === 'second') {
+            if (element.classId === 'A-plus') {
+              list.push(element)
+            }
+          })
+          this.productList = list
+        } else if (value === 'S') {
+          res.data.data.rows.forEach(element => {
+            if (element.classId === 'S') {
               list.push(element)
             }
           })

@@ -18,22 +18,36 @@
         <div>
           <span v-for="(item,index) in form.presentation" :key="index" class="title">{{item}}</span>
         </div>
+        <div class="story">{{form.teacherStoryLeft}}</div>
       </div>
-     <div class="story">{{form.teacherStory}}</div>
+      <new-text level="2">{{form.teacherStoryRight}}</new-text>
     </div>
     <!-- <div class="teacher-comment">
       <span>对咨询师对评价都是这样说</span>
     </div> -->
     <div class="teacher-product">
       <span>可以为你提供的服务</span>
+      <div class="bottom-card">
+          <a-card @click="godetail(item.id)" v-for="(item,index) in productList" :key="index" hoverable style="width: 300px;margin:30px 0px 0 0px">
+            <img slot="cover" alt="example" :src="item.imgUrl" />
+            <a-card-meta style="font-size:15px" :title="item.name" :description="form.major">
+            </a-card-meta>
+            <span style="color:#36BEB4;font-size:28px;padding-top:10px">¥{{item.price}}</span>
+          </a-card>
+        </div>
     </div>
   </div>
 </template>
 
 <script>
+import api from '@/api/product'
 import atdapi from '@/api/teacher'
 import HanziToPinyin from '../component/pinyinChange'
+import newText from '../component/text.vue'
 export default {
+  components: {
+    newText
+  },
   data () {
     return {
       productList: [],
@@ -83,12 +97,19 @@ export default {
     getTeacherDetail () {
       atdapi.getTeacherDetail(this.form.id).then(res => {
         res.data.data.rows.presentation = res.data.data.rows.presentation.split(',')
-        this.form = res.data.data.rows
-        let str = '这撒啊撒爱上啊撒打算打算的啊'
-        console.log(str.slice(0,5))
+        this.form = res.data.data.rows || ''
+        this.form.teacherStoryLeft = this.form.teacherStory.slice(0, 70)
+        this.form.teacherStoryRight = this.form.teacherStory.slice(70)
         this.form.pinyin = HanziToPinyin.instance.codefans_net_CC2PY(this.form.name).toUpperCase()
       }).finally(() => {
         this.loadTable = false
+        this.getProduct()
+      })
+    },
+    // 获取产品
+    getProduct () {
+      api.getProductDetail(this.form.productIds).then(res => {
+        this.productList.push(res.data.data.rows)
       })
     },
     // 搜索
@@ -150,15 +171,25 @@ export default {
     }
     .story{
         width: 480px;
+        height: 189px;
         font-size: 24px;
         color: #6D7278;
         white-space: pre-wrap;
+        margin-top: 48px;
       }
   }
   .teacher-product{
-    margin: 131px 0 0 165px;
+    margin: 131px 0 0px 165px;
     font-size: 36px;
     font-family: "PingFangCu";
+    padding-bottom: 200px;
+  .bottom-card {
+        display: flex;
+        flex-wrap: wrap;
+        .ant-card-meta-avatar {
+          float: right;
+        }
+      }
   }
 }
 </style>
