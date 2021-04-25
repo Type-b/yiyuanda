@@ -6,7 +6,7 @@ Vue.use(Vuex)
 // 初始化时用sessionStore.getItem('token'),这样子刷新页面就无需重新登录
 const state = {
   user: window.localStorage.getItem('user'),
-  token: window.localStorage.getItem('token'),
+  token: window.localStorage.getItem('token') || window.sessionStorage.getItem('token'),
   expire: 30, // 期望保存天数
   startTime: window.localStorage.getItem('startTime')
 }
@@ -26,6 +26,11 @@ const mutations = {
     // 把用户名存起来
     state.user = data
     window.localStorage.setItem('user', data)
+  },
+  // 临时登陆
+  SET_SESSIONTOKEN: (state, data) => {
+    state.token = data
+    window.sessionStorage.setItem('token', data)
   },
   // 登出
   LOGOUT: (state) => {

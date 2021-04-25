@@ -46,7 +46,7 @@
       </div>
     </a-form-model>
     <a-modal v-model="visible" title="机构认证代码" okText="确认" cancelText="取消"
-    @ok="handleRegister"
+    @ok="handleCode"
     @cancel="cancelModal"
     :ok-button-props="{ props: { disabled: isGetCode } }">
       <p>请输入您的6位机构认证代码，点击“应用”进行查验。<br>如果您是个人用户，请直接输入6个0</p>
@@ -269,7 +269,6 @@ export default {
     },
     // 注册验证
     handleSubmit (form) {
-      this.visible = true
       this.$refs['form'].validate((valid) => {
         if (valid) {
           if (this.institudeCode === '') {
@@ -283,18 +282,36 @@ export default {
       this.isGetCode = true
       this.institudeCode = ''
     },
-    // 注册
     handleRegister () {
+      let obj = {
+        phone: this.formData.phoneNumber,
+        mechanismCode: this.institudeCode,
+        password: this.formData.password
+      }
+      api.findRegister(obj).then(res => {
+        this.isLoading = true
+        if (res.data.success) {
+          this.$message.success('注册成功，为您跳转登陆界面')
+          this.$router.push('/login')
+        } else {
+          this.$message.error(res.data.data.message)
+        }
+      }).finally(() => {
+        this.isLoading = false
+      })
+    },
+    // 验证验证码
+    handleCode () {
       let obj = {
         phone: this.formData.phoneNumber,
         code: this.formData.verification
       }
       api.findVerificationCode({params: obj}).then(res => {
         this.isLoading = true
-        if (res.data.message) {
-          this.$message.success('注册成功，为您跳转登陆界面')
-          this.$router.push('/login')
-          this.$router.go(0)
+        if (res.data.success) {
+          this.$message.loading('正在注册，请稍等', 1).then(() => {
+            this.handleRegister()
+          })
         } else {
           this.$message.error(res.data.data.message)
         }

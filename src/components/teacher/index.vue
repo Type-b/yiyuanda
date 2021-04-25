@@ -87,9 +87,6 @@
             <a-card-meta style="font-size:15px" :title="item.name">
               <span slot="description">{{item.major}}</span>
             </a-card-meta>
-            <!-- <a-card-meta style="font-size:13px;padding-top:13px" description="5hours ago">
-              <span style="font-size:25px;color:#000">1231</span>
-            </a-card-meta> -->
           </a-card>
         </div>
       </div>

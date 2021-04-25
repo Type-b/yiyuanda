@@ -19,6 +19,18 @@ const api = {
     return $default.get('yyd/user/verifyMechanism', id).then(resp => {
       return resp
     }).catch((err) => { return err })
+  },
+  // 注册验证
+  findRegister (params) {
+    return $default.post('yyd/user/register', params).then(resp => {
+      return resp
+    }).catch((err) => { return err })
+  },
+  // 登陆验证
+  findLogin (params) {
+    return $default.post('yyd/user/login', params).then(resp => {
+      return resp
+    }).catch((err) => { return err })
   }
 }
 

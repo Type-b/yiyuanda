@@ -117,6 +117,8 @@ export default {
     }
   },
   created () {
+    console.log(this.$store.state);
+    console.log(window.sessionStorage.getItem('token'));
     this.keys = [this.$route.name]
     this.isLogin = this.$store.state.token
   },
@@ -135,6 +137,7 @@ export default {
     logout () {
       this.$store.commit('LOGOUT')
       this.$message.success('退出成功')
+      this.$router.go(0)
       this.$router.push('/home')
     },
     changeMenu: debounce(function (route) {

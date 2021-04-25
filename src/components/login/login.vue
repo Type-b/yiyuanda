@@ -11,9 +11,9 @@
         </a-input>
       </a-form-item>
       <a-form-item has-feedback>
-        <a-input v-decorator="formRule.password" style="width:368px;" placeholder="请输入登录密码">
+        <a-input-password style="width:368px" v-decorator="formRule.password" placeholder="请输入登录密码">
           <a-icon slot="prefix" type="lock" style="color:rgba(24, 144, 255, 1)" />
-        </a-input>
+        </a-input-password>
       </a-form-item>
       <div class="before-login">
         <a-checkbox @change="loginAuto">
@@ -32,17 +32,15 @@
 </template>
 
 <script>
+import api from '@/api/login'
 export default {
   beforeCreate () {
     this.form = this.$form.createForm(this, { name: 'normal_login' })
   },
   data () {
     return {
-      // 账号
-      userName: '',
-      // 密码
-      password: '',
       autoLogin: false,
+      password: '',
       formRule:
       {
         user: [
@@ -74,12 +72,27 @@ export default {
       this.form.validateFields((err, values) => {
         if (!err) {
           if (this.autoLogin) {
-            this.$store.commit('GET_USER', this.formRule.user[0])
-            this.$store.commit('SET_STARTIME', new Date().valueOf())
-            console.log(this.$store.state)
+            this.$store.commit('SET_TOKEN', true)
+          } else { this.$store.commit('SET_SESSIONTOKEN', true) }
+          let obj = {
+            phone: values.user,
+            password: values.password
           }
-          this.$store.commit('SET_TOKEN', true)
-          this.$message.success('登陆成功')
+          api.findLogin(obj).then(res => {
+            this.isLoading = true
+            if (res.data.success) {
+              this.$message.success('登陆成功,正在跳转...', 1).then(() => {
+                this.$store.commit('GET_USER', values.user)
+                this.$store.commit('SET_STARTIME', new Date().valueOf())
+                this.$router.push({path: '/home'})
+                this.$router.go(0)
+              })
+            } else {
+              this.$message.error(res.data.data.message)
+            }
+          }).finally(() => {
+            this.isLoading = false
+          })
         } else {
           this.$message.error('登陆失败')
         }
