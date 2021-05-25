@@ -11,7 +11,7 @@
         </a-input>
       </a-form-item>
       <a-form-item has-feedback>
-        <a-input-password style="width:368px" v-decorator="formRule.password" placeholder="请输入登录密码">
+        <a-input-password @keypress.native.enter="handleSubmit" style="width:368px" v-decorator="formRule.password" placeholder="请输入登录密码">
           <a-icon slot="prefix" type="lock" style="color:rgba(24, 144, 255, 1)" />
         </a-input-password>
       </a-form-item>

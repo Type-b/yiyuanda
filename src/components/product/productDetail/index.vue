@@ -27,16 +27,17 @@
     <div class="page-bottom-detail">
       <div class="page-bottom-left">
         <a-tabs type="card" default-active-key="2">
-           <a-tab-pane key="1" tab="可选页签">
-            Content of Tab Pane 1
+           <a-tab-pane key="1" tab="产品流程">
+            <img src="https://www.yiyuanda.net/image/product-progress.png">
           </a-tab-pane>
-          <a-tab-pane key="2" tab="产品介绍">
-            Content of Tab Pane 2
+          <a-tab-pane style="white-space: pre-line;
+    font-size: 22px;padding-left:22px;line-height:44px" key="2" tab="产品介绍">
           </a-tab-pane>
          </a-tabs>
       </div>
       <div class="page-bottom-right">
-        <span style="font-size:30px">高考志愿咨询5步走</span>
+        <p style="font-size:30px">高考志愿咨询服务流程</p>
+        <span style="line-height:40px;white-space:pre-wrap;font-size:21px">{{form.present}}</span>
     </div>
   </div>
   </div>
@@ -176,7 +177,7 @@ export default {
     display: flex;
     .page-bottom-left {
       width:870px;
-      height:980px;
+      height:1300px;
       .title {
         padding: 8px 0px 16px 24px;
         font-size: 16px;
@@ -185,7 +186,7 @@ export default {
     }
     .page-bottom-right {
      width: 35%;
-     height: 484px;
+     height: 654px;
      border: 1px solid #36BEB4;
      border-top: 9px solid #36BEB4;
      padding: 23px 11px 0 25px;

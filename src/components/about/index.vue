@@ -97,7 +97,7 @@ export default {
   widows: 100%;
   background: #fff;
   .page-banner {
-    height: 567px;
+    height: 610px;
     width: 100%;
     background-repeat: no-repeat;
     background-size: 100% 100%;
@@ -106,6 +106,7 @@ export default {
       width: 100%;
       position: absolute;
       filter: blur(10px);
+      height: 610px
     }
     .banner-text {
       display: flex;
@@ -116,7 +117,7 @@ export default {
     }
   }
   .page-anchor {
-    margin: 7px 0 0 77px;
+    margin: 17px 0 0 77px;
     display: flex;
     .ant-affix {
       top: 150px !important;
