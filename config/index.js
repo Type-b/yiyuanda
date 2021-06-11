@@ -11,7 +11,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/yyd': {
-        target: 'http://188.131.147.95:8080',
+        target: 'https://www.yiyuanda.net:8443',
         pathRewrite: {
           '^/yyd': '/yyd'
         },
