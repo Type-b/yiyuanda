@@ -28,10 +28,17 @@
       <div class="page-bottom-left">
         <a-tabs type="card" default-active-key="2">
            <a-tab-pane key="1" tab="产品流程">
-            <img src="https://www.yiyuanda.net/image/product-progress.png">
+            <img style="width:100%;" src="https://www.yiyuanda.net/image/product-progress.png">
           </a-tab-pane>
           <a-tab-pane style="white-space: pre-line;
-    font-size: 22px;padding-left:22px;line-height:44px" key="2" tab="产品介绍">
+    font-size: 24px;padding:22px;line-height:44px" key="2" tab="产品介绍">
+          <span>1.初步交流孩子的院校定位、专业意向、职业规划。
+2.填写易愿达考生基本信息表、易愿达专业选择意向表。
+3.第一次交流，进行霍兰德职业测评。
+4.第二次交流，初步选择意向专业和学校。
+5.第三次交流，考生提供估测分数，交流后共同完成志愿填报方案初稿。
+6.第四次交流，考生提供最终分数，交流后共同完成志愿填报方案终稿。
+服务完成。</span>
           </a-tab-pane>
          </a-tabs>
       </div>
@@ -177,7 +184,7 @@ export default {
     display: flex;
     .page-bottom-left {
       width:870px;
-      height:1300px;
+      height:1200px;
       .title {
         padding: 8px 0px 16px 24px;
         font-size: 16px;
