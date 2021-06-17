@@ -30,7 +30,7 @@
                 <a-avatar size="small" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
               <a-menu slot="overlay">
                 <a-menu-item>
-                  <a href="javascript:;">个人中心</a>
+                  <a href="javascript:;" @click="goUser">个人中心</a>
                 </a-menu-item>
                 <a-menu-item>
                   <a href="javascript:;">结算中心</a>
@@ -40,7 +40,6 @@
                 </a-menu-item>
               </a-menu>
             </a-dropdown>
-
           </a-menu-item>
         </a-menu>
       </a-layout-header>
@@ -117,8 +116,8 @@ export default {
     }
   },
   created () {
-    console.log(this.$store.state);
-    console.log(window.sessionStorage.getItem('token'));
+    console.log(this.$store.state)
+    console.log(window.sessionStorage.getItem('token'))
     this.keys = [this.$route.name]
     this.isLogin = this.$store.state.token
   },
@@ -132,6 +131,9 @@ export default {
     // 登录
     login () {
       this.$router.push('/login')
+    },
+    goUser () {
+      this.$router.push({path: '/user'})
     },
     // 退出登陆
     logout () {

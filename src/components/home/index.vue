@@ -45,7 +45,7 @@
         <span class="text-big" style="margin-top:40px;font-size:72px;font-family: pingFangHei">98%</span>
         <span class="text-little">好评率</span>
       </div>
-      <div class="bottom-right">
+      <div style="width:100%;display: flex;align-items: center;justify-content: center;">
         <div
           v-infinite-scroll="handleInfiniteOnLoad"
           class="demo-infinite-container"
@@ -213,7 +213,9 @@ export default {
   },
   methods: {
     // 手机号存储
-    onSearch () { },
+    onSearch () {
+      this.$router.push({path: '/register'})
+    },
     getlist () {
       atdapi.getaccesslist().then(res => {
         let data = res.data.data.rows
@@ -410,6 +412,7 @@ export default {
   padding: 8px 24px;
   height: 100%;
   margin-left:150px;
+  width: 800px;
 }
 .ant-list-split .ant-list-item{
   display: flex;
@@ -417,6 +420,7 @@ export default {
   flex-direction: column;
   background: rgba(255, 255, 255, 0.08);
   margin-top: 20px;
+  margin-right: 20px;
   border-bottom: none;
   border-radius: 10px;
   padding: 15px;
@@ -426,7 +430,7 @@ export default {
   width:270px;
   flex-direction: column;
   background: rgba(255, 255, 255, 0.08);
-  margin-right: 250px;
+  margin-right: 150px;
   border-bottom: none;
   border-radius: 10px;
   padding: 15px;

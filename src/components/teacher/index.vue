@@ -48,7 +48,7 @@
         </a-breadcrumb>
         <span class="title">搜索列表（咨询师）</span>
         <div style="display:flex;justify-content:center;border-bottom:1px solid #E9E9E9">
-          <a-input-search style="margin:16px 0 0 0;width:450px;height:53px;" placeholder="一对一 专业介绍" enter-button="搜索" @search="onSearch" />
+          <a-input-search v-model="nameOrId" style="margin:16px 0 0 0;width:450px;height:53px;" placeholder="一对一 专业介绍" enter-button="搜索" @search="onSearch" />
         </div>
         <div style="padding:24px 0 16px 0px;border-bottom:1px dashed #E9E9E9;margin-left:40px;margin-right:24px">
           <span>所属类目：</span>
@@ -101,6 +101,8 @@ export default {
     return {
       // 咨询师介绍
       detailList: [],
+      // 查询id
+      nameOrId: '',
       // 作者列表
       authorList: [
         {
@@ -136,7 +138,9 @@ export default {
     },
     // 搜索
     onSearch () {
-
+      atdapi.findTeacherList({params: {TeacherName: this.nameOrId}}).then(res => {
+        this.teacherList = res.data.data.rows
+      })
     },
     // 咨询师详情
     goTeacherDetail (id) {

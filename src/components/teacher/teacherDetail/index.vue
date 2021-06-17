@@ -174,7 +174,6 @@ export default {
         height: 189px;
         font-size: 24px;
         color: #6D7278;
-        white-space: pre-wrap;
         margin-top: 48px;
       }
   }

@@ -33,6 +33,22 @@ const router = new Router({
       component: () => import(/* webpackChunkName: "about" */ '../layout/index.vue')
     },
     {
+      path: '/user',
+      meta: {
+        chineseName: '个人档案'
+      },
+      desc: '',
+      component: resolve => require(['../layout/index.vue'], resolve),
+      children: [
+        {
+          name: 'user',
+          path: '',
+          meta: { title: '个人档案', icon: 'home' },
+          component: resolve => require(['../components/user/userDetail.vue'], resolve)
+        }
+      ]
+    },
+    {
       path: '/home',
       meta: {
         chineseName: '首页'

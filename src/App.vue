@@ -31,16 +31,16 @@ body {filter: gray;} */
   color: #2c3e50;
   margin-top: 60px;
 }
-@font-face {
+/* @font-face {
   font-family: "PingFangCu";
   src: url("./assets/pingFangCu.ttf");
-}
-@font-face {
+} */
+/* @font-face {
   font-family: "PingFangHei";
   src: url("./assets/pingFangHei.ttf");
 }
 @font-face {
   font-family: "PingFangZhun";
   src: url("./assets/pingFangZhun.ttf");
-}
+} */
 </style>

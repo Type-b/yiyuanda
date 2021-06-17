@@ -8,6 +8,12 @@ const api = {
       return resp
     }).catch((err) => { return err })
   },
+  // 咨询师查询
+  findTeacherList (TeacherName) {
+    return $default.get('/yyd/teacher/search/', TeacherName).then(resp => {
+      return resp
+    }).catch((err) => { return err })
+  },
   // 咨询师详情
   getTeacherDetail (id) {
     return $default.get(`/yyd/teacher/queryTeacherById/${id}`).then(resp => {
