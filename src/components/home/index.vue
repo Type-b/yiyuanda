@@ -362,11 +362,11 @@ export default {
     display: flex;
     height: 800px;
     ::-webkit-scrollbar {
-     width: 0 !important;
-   }
+    width: 0 !important;
+  }
   ::-webkit-scrollbar {
-     width: 0 !important;height: 0;
-   }
+    width: 0 !important;height: 0;
+  }
     .bottom-left {
       padding: 152px 0 228px 0;
       display: flex;
@@ -413,7 +413,6 @@ export default {
   height: 100%;
   margin-left:150px;
   width: 800px;
-  
 }
 .ant-list-split .ant-list-item{
   display: flex;

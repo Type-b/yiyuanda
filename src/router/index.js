@@ -141,7 +141,8 @@ const router = new Router({
     {
       path: '/cooperation',
       meta: {
-        chineseName: '商务合作'
+        chineseName: '商务合作',
+        requireAuth: false // 添加该字段，表示进入这个路由是需要登录的
       },
       desc: '',
       component: resolve => require(['../layout/index.vue'], resolve),
