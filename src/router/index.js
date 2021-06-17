@@ -139,6 +139,25 @@ const router = new Router({
       ]
     },
     {
+      path: '/cooperation',
+      meta: {
+        chineseName: '商务合作'
+      },
+      desc: '',
+      component: resolve => require(['../layout/index.vue'], resolve),
+      children: [
+        {
+          name: 'cooperation',
+          path: '/cooperation',
+          meta: {
+            chineseName: '商务合作'
+          },
+          desc: '',
+          component: resolve => require(['../components/cooperation/index.vue'], resolve)
+        }
+      ]
+    },
+    {
       path: '/login',
       meta: {
         chineseName: '登录'

@@ -74,7 +74,7 @@
             </router-link>
             <div style="padding-top:16px;display:flex;flex-direction:column">
                 <router-link target="_blank" :to="{path:'/About'}" class="footer-child">公司介绍</router-link>
-                <router-link target="_blank" :to="{path:'/About'}" class="footer-child">加盟商合作</router-link>
+                <router-link target="_blank" :to="{path:'/cooperation'}" class="footer-child">加盟商合作</router-link>
                 <router-link target="_blank" :to="{path:'/About'}" class="footer-child">合作结构</router-link>
                 <router-link target="_blank" :to="{path:'/About'}" class="footer-child">商业推广</router-link>
             </div>
