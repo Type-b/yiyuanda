@@ -151,7 +151,7 @@ const router = new Router({
           name: 'cooperation',
           path: '/cooperation',
           meta: {
-            chineseName: '关于我们'
+            chineseName: '商务合作'
           },
           desc: '',
           component: resolve => require(['../components/cooperation/index.vue'], resolve)
