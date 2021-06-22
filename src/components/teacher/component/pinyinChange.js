@@ -628,6 +628,7 @@ export class HanziToPinyin extends Vue {
     fou: '\u7f36',
     bia: '\u9adf'
   };
+  // eslint-disable-next-line camelcase
   codefans_net_CC2PY (l1) {
     let l2 = l1.length
     let I1 = ''
@@ -655,6 +656,7 @@ export class HanziToPinyin extends Vue {
     for (let name in this.PinYin) {
       if (this.PinYin[name].indexOf(l1) !== -1) {
         return this.ucfirst(name)
+        // eslint-disable-next-line no-unreachable
         break
       }
     }
