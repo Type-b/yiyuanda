@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 
 let intervalTime = function (startTime, endTime) {
   // var timestamp=new Date().getTime(); //计算当前时间戳
