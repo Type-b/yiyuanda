@@ -9,6 +9,11 @@ const api = {
 
   getaccesstype () {
     return $http.get('/access/getaccesstype')
+  },
+  pay (params) {
+    return $default.get('https://www.yiyuanda.net/wxpay/index', params).then(resp => {
+      return resp
+    }).catch((err) => { return err })
   }
 }
 
