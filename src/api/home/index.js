@@ -11,7 +11,7 @@ const api = {
     return $http.get('/access/getaccesstype')
   },
   pay (params) {
-    return $default.get('https://www.yiyuanda.net/wxpay/index', params).then(resp => {
+    return $default.post('/yyd/wxpay/index', params).then(resp => {
       return resp
     }).catch((err) => { return err })
   }

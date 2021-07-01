@@ -311,7 +311,7 @@ export default {
         colorLight: '#ffffff',
         correctLevel: QRCode.CorrectLevel.H
       })
-      atdapi.pay({ 'orderId': 'yyd20216211234567890' }).then((res) => {
+      atdapi.pay({ params: { orderId: 'yyd20216211234567823' } }).then((res) => {
         console.log(res)
       })
     },
@@ -361,6 +361,7 @@ export default {
 </script>
 <style lang="scss">
 .page-main-home {
+  overflow-x: hidden;
   height: calc(100% - 185px);
   widows: 100%;
   background: #d8d8d8;

@@ -1,9 +1,29 @@
 <template>
   <div>
     <a-layout id="components-layout-demo-fixed">
-      <a-layout-header :style="{ position: 'fixed', zIndex: 10, width: '100%', display:'flex', alignItems:'center',borderBottom:'1px solid #000',fontFamily: 'pingFangZhun' }">
-        <img @click="changeMenu('home')" src="../assets/logo.png" style="width:102px;height:26px;cursor:point" />
-        <a-menu theme="dark" mode="horizontal" :default-selected-keys="keys" :style="{ lineHeight: '64px' }">
+      <a-layout-header
+        :style="{
+          position: 'fixed',
+          zIndex: 10,
+          width: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          borderBottom: '1px solid #000',
+          fontFamily: 'pingFangZhun'
+        }"
+      >
+        <img
+          @click="changeMenu('home')"
+          src="../assets/logo.png"
+          style="width: 102px; height: 26px; cursor: point"
+        />
+        <a-menu
+          v-model="current"
+          theme="dark"
+          mode="horizontal"
+          :default-selected-keys="keys"
+          :style="{ lineHeight: '64px' }"
+        >
           <a-menu-item key="home" @click="changeMenu('home')">
             首页
           </a-menu-item>
@@ -16,18 +36,27 @@
           <a-menu-item key="About" @click="changeMenu('About')">
             关于我们
           </a-menu-item>
-          <a-menu-item style="margin-left:189px" key="About2" @click="changeMenu('About')">
+          <a-menu-item
+            style="margin-left: 189px"
+            key="About2"
+            @click="changeMenu('About')"
+          >
             在线咨询
           </a-menu-item>
           <a-menu-item v-if="!isLogin" key="login">
-            <a-button @click="login" style="width:102px;background-color:#36BEB4;color:#ffffff">登录账号</a-button>
+            <a-button
+              @click="login"
+              style="width: 102px; background-color: #36beb4; color: #ffffff"
+              >登录账号</a-button
+            >
           </a-menu-item>
           <a-menu-item class="menu-item" v-if="isLogin">
-            <span style="padding:0px 10px">
-              您好！
-            </span>
+            <span style="padding: 0px 10px"> 您好！ </span>
             <a-dropdown>
-                <a-avatar size="small" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+              <a-avatar
+                size="small"
+                src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+              />
               <a-menu slot="overlay">
                 <a-menu-item>
                   <a href="javascript:;" @click="goUser">个人中心</a>
@@ -43,50 +72,151 @@
           </a-menu-item>
         </a-menu>
       </a-layout-header>
-      <a-layout-content style="margin-top:63px;font-family:PingFangZhun">
+
+      <a-layout-content style="margin-top: 63px; font-family: PingFangZhun">
         <router-view />
       </a-layout-content>
-      <a-layout-footer :style="{ height:'400px',width:'100%',color:'#001529', backgroundColor:'#001529', textAlign: 'center',display:'flex',flexDirection:'column' }">
-        <div style="display:flex">
-          <div style="padding:64px 53px 0 48px" class="footer-top">
-            <span class="footer-logo">易愿达</span>
-            <span style="color:white">一对一高考志愿填报专家</span>
+      <a-layout-footer
+        :style="{
+          width: '100%',
+          color: '#001529',
+          backgroundColor: '#001529',
+          textAlign: 'center',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center'
+        }"
+      >
+        <div style="display: flex">
+          <div style="padding: 64px 53px 0 0px" class="footer-top">
+            <img
+              style="width: 145px; height: 36px"
+              src="../assets/footer-logo.png"
+            />
+            <span style="color: white; margin-top: 10px"
+              >一对一高考志愿填报专家</span
+            >
           </div>
           <div class="footer-top">
-            <router-link target="_blank" :to="{path:'/product'}" class="footer-title">产品中心</router-link>
-            <div style="padding-top:16px;display:flex;flex-direction:column">
-              <router-link target="_blank" :to="{path:'/product'}" class="footer-child">API文档</router-link>
-              <router-link target="_blank" :to="{path:'/product'}" class="footer-child">快速入门</router-link>
-              <router-link target="_blank" :to="{path:'/product'}" class="footer-child">参考指南</router-link>
+            <router-link
+              target="_blank"
+              :to="{ path: '/product' }"
+              class="footer-title"
+              >产品中心</router-link
+            >
+            <div
+              style="padding-top: 16px; display: flex; flex-direction: column"
+            >
+              <router-link
+                target="_blank"
+                :to="{ path: '/product' }"
+                class="footer-child"
+                >API文档</router-link
+              >
+              <router-link
+                target="_blank"
+                :to="{ path: '/product' }"
+                class="footer-child"
+                >快速入门</router-link
+              >
+              <router-link
+                target="_blank"
+                :to="{ path: '/product' }"
+                class="footer-child"
+                >参考指南</router-link
+              >
             </div>
             <span>API文档</span>
           </div>
           <div class="footer-top">
-            <router-link target="_blank" :to="{path:'/Consultant'}" class="footer-title">咨询师库</router-link>
-            <div style="padding-top:16px;display:flex;flex-direction:column">
-              <router-link target="_blank" :to="{path:'/Consultant'}" class="footer-child">介绍</router-link>
-              <router-link target="_blank" :to="{path:'/Consultant'}" class="footer-child">咨询师列表</router-link>
+            <router-link
+              target="_blank"
+              :to="{ path: '/Consultant' }"
+              class="footer-title"
+              >咨询师库</router-link
+            >
+            <div
+              style="padding-top: 16px; display: flex; flex-direction: column"
+            >
+              <router-link
+                target="_blank"
+                :to="{ path: '/Consultant' }"
+                class="footer-child"
+                >介绍</router-link
+              >
+              <router-link
+                target="_blank"
+                :to="{ path: '/Consultant' }"
+                class="footer-child"
+                >咨询师列表</router-link
+              >
             </div>
           </div>
           <div class="footer-top">
-            <router-link target="_blank" :to="{path:'/About'}">
-             <span class="footer-title">关于我们</span>
+            <router-link target="_blank" :to="{ path: '/About' }">
+              <span class="footer-title">关于我们</span>
             </router-link>
-            <div style="padding-top:16px;display:flex;flex-direction:column">
-                <router-link target="_blank" :to="{path:'/About'}" class="footer-child">公司介绍</router-link>
-                <router-link target="_blank" :to="{path:'/cooperation'}" class="footer-child">加盟商合作</router-link>
-                <router-link target="_blank" :to="{path:'/About'}" class="footer-child">合作结构</router-link>
-                <router-link target="_blank" :to="{path:'/About'}" class="footer-child">商业推广</router-link>
+            <div
+              style="padding-top: 16px; display: flex; flex-direction: column"
+            >
+              <router-link
+                target="_blank"
+                :to="{ path: '/About' }"
+                class="footer-child"
+                >公司介绍</router-link
+              >
+              <router-link
+                target="_blank"
+                :to="{ path: '/cooperation' }"
+                class="footer-child"
+                >加盟商合作</router-link
+              >
+              <router-link
+                target="_blank"
+                :to="{ path: '/About' }"
+                class="footer-child"
+                >合作结构</router-link
+              >
+              <router-link
+                target="_blank"
+                :to="{ path: '/About' }"
+                class="footer-child"
+                >商业推广</router-link
+              >
             </div>
           </div>
           <div class="footer-top">
             <span class="footer-title">数据后台</span>
-            <div style="display:flex">
-              <img class="footer-img" src="../assets/weixi.png">
-              <img class="footer-img" style="margin-left:16px" src="../assets/github.png">
+            <div style="display: flex">
+              <a-tooltip :overlayStyle="{ 'text-align': 'center' }">
+                <template slot="title">
+                  <img
+                    class="footer-img"
+                    style="width: 150px; height: 150px"
+                    src="../assets/contact.jpg"
+                  />
+                  <div>扫一扫添加客服人员微信</div>
+                </template>
+                <img class="footer-img" src="../assets/weixi.png" />
+              </a-tooltip>
+              <img
+                class="footer-img"
+                style="margin-left: 16px"
+                src="../assets/github.png"
+              />
             </div>
-            <span class="footer-title" style="padding-top:59px">关注我们</span>
-            <img class="footer-img" src="../assets/weixi.png">
+            <span class="footer-title" style="padding-top: 59px">关注我们</span>
+            <a-tooltip>
+              <template slot="title">
+                <img
+                  class="footer-img"
+                  style="width: 150px; height: 150px"
+                  src="../assets/contact.jpg"
+                />
+                <div>扫一扫添加客服人员微信</div>
+              </template>
+              <img class="footer-img" src="../assets/weixi.png" />
+            </a-tooltip>
           </div>
         </div>
         <div class="footer-bottom">
@@ -112,7 +242,9 @@ export default {
   data () {
     return {
       keys: '',
-      isLogin: false
+      current: ['mail'],
+      isLogin: false,
+      collapsed: false
     }
   },
   created () {
@@ -133,7 +265,7 @@ export default {
       this.$router.push('/login')
     },
     goUser () {
-      this.$router.push({path: '/user'})
+      this.$router.push({ path: '/user' })
     },
     // 退出登陆
     logout () {
@@ -146,7 +278,7 @@ export default {
       if (this.$route.name === route) {
         this.$router.go(0)
       } else {
-        this.$router.push({path: '/' + route})
+        this.$router.push({ path: '/' + route })
       }
     })
   }
@@ -154,18 +286,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.menu-item{
-  color:#000 !important;
+.ant-tooltip-inner {
+  text-align: center;
+}
+.menu-item {
+  color: #000 !important;
   display: flex;
   align-items: center;
   padding: 0 !important;
-  margin:0 12px;
-  border-left:1px solid #000000;
+  margin: 0 12px;
+  border-left: 1px solid #000000;
 }
-.ant-menu-item{
+.ant-menu-item {
   line-height: 0px !important;
 }
-.ant-menu-dark.ant-menu-horizontal{
+.ant-menu-dark.ant-menu-horizontal {
   line-height: 0px;
   display: flex;
   align-items: center;
@@ -213,6 +348,9 @@ export default {
   display: flex;
   flex-direction: column;
   text-align: left;
+  .ant-tooltip-inner {
+    text-align: center !important;
+  }
   .footer-logo {
     font-family: Digital;
     font-size: 45px;
