@@ -43,8 +43,30 @@
     <a-form-model-item style="margin:36px 0px 0 22px" class="user-input" label="微信">
       <a-input v-model="form.fieldA" style="width:270px" placeholder="input placeholder" />
     </a-form-model-item>
-    <a-button>保存</a-button>
+    <a-button style="margin:45px 0 0 570px;border-radius:45px;border:1px solid #000;height:31px;width:80px">保存</a-button>
     </a-form-model>
+    <div style="margin-top:70px">
+      <span style="color:rgba(0,0,0,0.85);font-size:24px">最近系统消息</span>
+      <div style="display:flex;align-items:center">
+        <a-steps style="margin-top:24px;width:225px" progress-dot :current="1" direction="vertical">
+        <a-step title="Finished" description="This is a description. This is a description." />
+        <a-step title="Finished" description="This is a description. This is a description." />
+        <a-step title="In Progress" description="This is a description. This is a description." />
+        <a-step title="Waiting" description="This is a description." />
+        <a-step title="Waiting" description="This is a description." />
+        </a-steps>
+        <a-alert
+          v-if="visible"
+          message="帮助信息"
+          description="系统信息将会自动帮你收录来自后台发送各种提醒操作，请注意查看内容。"
+          type="info"
+          style="width:604px;height:104px;margin-left:123px"
+          closable
+          show-icon
+          :after-close="handleClose"
+        />
+      </div>
+    </div>
   </div>
   </div>
 </template>
@@ -57,8 +79,19 @@ export default {
         src: '',
         name: '陈泽铭',
         userCode: ''
+      },
+      visible: true,
+      // 请求链接
+      headers: {}
+    }
+  },
+  methods: {
+    handleClose () {
+      this.visible = false
+    },
+    // 上传
+    handleChange () {
 
-      }
     }
   }
 
